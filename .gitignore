@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# env / secrets
+.env
+.env.local
+*.local
+
+# firebase
+.firebase/
+firebase-debug.log
+serviceAccountKey.json
+
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# vercel
+.vercel
