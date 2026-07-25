@@ -189,6 +189,16 @@
   form textarea{min-height:120px;resize:vertical;}
   form .btn{width:100%;justify-content:center;border:none;margin-top:4px;}
   .form-note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center;}
+  /* contact confirmation — an experience of its own */
+  .form-done{text-align:center;padding:24px 10px 10px;animation:doneIn .6s cubic-bezier(.16,1,.3,1);}
+  @keyframes doneIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  .done-ring{width:68px;height:68px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;color:#fff;background:linear-gradient(160deg,var(--accent),#ff5e7a);box-shadow:0 0 0 6px rgba(228,3,46,.15),0 0 44px rgba(228,3,46,.4);animation:donePop .55s .1s both cubic-bezier(.2,1.5,.4,1);}
+  .done-ring svg{width:34px;height:34px;}
+  @keyframes donePop{from{transform:scale(.35);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .form-done .done-title{font-family:var(--display);font-size:clamp(30px,6vw,46px);text-transform:uppercase;letter-spacing:.02em;}
+  .form-done .done-msg{font-size:18px;color:var(--ink);margin-top:8px;}
+  .form-done .done-sub{color:var(--muted);font-size:14.5px;margin:12px auto 22px;max-width:46ch;line-height:1.5;}
+  .form-done .btn{display:inline-flex;}
 
   /* ===== Intro / first-visit entry ===== */
   #intro{position:fixed;inset:0;z-index:9999;background:#060607;display:none;flex-direction:column;align-items:center;justify-content:center;opacity:1;transition:opacity .7s ease,background .6s ease;overflow:hidden;cursor:pointer;}
@@ -248,6 +258,7 @@
 
   /* ===== polish round: digital tagline, edgier cards, pkg view, poll, qr, smoke exit ===== */
   .hero .tagline .digital{color:var(--accent);animation:digitalGlow 3.4s ease-in-out infinite;}
+  @media(max-width:640px){.hero .tagline .digital{animation:none;color:#FF3B57;text-shadow:0 0 5px rgba(255,59,87,.3);}}
   @keyframes digitalGlow{
     0%,100%{color:#E4032E;text-shadow:0 0 10px rgba(228,3,46,.5),0 0 26px rgba(228,3,46,.3);}
     30%{color:#FF2D5E;text-shadow:0 0 14px rgba(255,45,94,.7),0 0 34px rgba(255,45,94,.4);}
@@ -332,7 +343,7 @@
       <a href="#experience">Experience</a>
       <a href="#packages">Packages</a>
       <a href="#demo">Live demo</a>
-      <a href="#contact" class="nav-cta">Book a demo</a>
+      <a href="#contact" class="nav-cta">Elevate your event</a>
     </nav>
   </div>
 </header>
@@ -346,8 +357,8 @@
     <p class="lede">A fully branded web app for your event — curated for your attendees' experience with your brand. They scan a QR code, add it to their home screen, and the whole event lives in their pocket: schedule, networking, photo wall, sponsors, and more. No app store. No download.</p>
     <p class="venire"><em>venire</em> — Latin, "to come." The root of both <em>venue</em> and <em>event</em>. Everything starts with people showing up.</p>
     <div class="cta-row">
-      <a class="btn primary" href="#demo">▶&nbsp; See the live demo</a>
-      <a class="btn ghost" href="#packages">Explore packages</a>
+      <a class="btn primary" href="#demo">▶&nbsp; See live experiences</a>
+      <a class="btn ghost" href="#packages">Explore popular packages</a>
     </div>
     <div class="hero-badges">
       <span><span class="tick">✓</span> No app store</span>
@@ -377,7 +388,7 @@
       <div class="pillar">
         <div class="idx">03</div>
         <h3>Built modular</h3>
-        <p>Every feature is a module. Switch on what fits, pay for nothing you don't. Conference, gala, wedding, arena — one engine, infinite skins.</p>
+        <p>Every feature is a module. Switch on what fits, pay for nothing you don't. Conference, gala, wedding, arena — one engine, infinite possible experience combinations.</p>
       </div>
     </div>
   </div>
@@ -528,7 +539,11 @@
       </div>
       <form id="contactForm">
         <div class="field">
-          <label for="name">Name</label>
+          <label for="ename">Event name</label>
+          <input id="ename" name="ename" type="text" placeholder="e.g. Pulse Fest '26" required>
+        </div>
+        <div class="field">
+          <label for="name">Your name</label>
           <input id="name" name="name" type="text" placeholder="Your name" required>
         </div>
         <div class="field">
@@ -544,6 +559,7 @@
           <select id="etype" name="etype">
             <option>Conference / Summit</option>
             <option>Gala / fundraiser</option>
+            <option>Wedding</option>
             <option>Trade show</option>
             <option>Arena / concert</option>
             <option>Other</option>
@@ -551,11 +567,18 @@
         </div>
         <div class="field">
           <label for="msg">About your event</label>
-          <textarea id="msg" name="msg" placeholder="Dates, size, what you're hoping the app can do..."></textarea>
+          <textarea id="msg" name="msg" placeholder="Dates, size, what you're hoping the experience can do..."></textarea>
         </div>
-        <button class="btn primary" type="submit">Send inquiry</button>
-        <p class="form-note">Sends your details straight to the Venu team.</p>
+        <button class="btn primary" id="sendBtn" type="submit">Let's elevate my event</button>
+        <p class="form-note">We'll be in touch — no spam, ever.</p>
       </form>
+      <div id="formDone" class="form-done" hidden>
+        <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h3 class="done-title">You're in.</h3>
+        <p class="done-msg" id="doneMsg"></p>
+        <p class="done-sub" id="doneSub"></p>
+        <a class="btn primary" href="#demo">See the live experiences</a>
+      </div>
     </div>
   </div>
 </section>
@@ -825,17 +848,26 @@ function selectType(typeId){
 selectType("custom");
 
 /* Contact form → opens the visitor's email client with details prefilled. */
-document.getElementById('contactForm').addEventListener('submit', function(e){
+/* Contact form — submits in-page (no leaving the site), then reveals a confirmation experience. */
+const ACCESS_KEY = "WEB3FORMS_KEY"; // Venu Web3Forms access key
+function escHtml(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+document.getElementById('contactForm').addEventListener('submit', async function(e){
   e.preventDefault();
-  const name = document.getElementById('name').value || '';
-  const email = document.getElementById('email').value || '';
-  const elink = document.getElementById('elink').value || '';
-  const etype = document.getElementById('etype').value || '';
-  const msg = document.getElementById('msg').value || '';
-  const subject = encodeURIComponent('Venu inquiry — ' + etype + (name ? ' — ' + name : ''));
-  const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nEvent type: ' + etype + '\nEvent link: ' + elink + '\n\n' + msg);
-  // Routed to the Venu inbox (address not shown on the page). Swap for a hosted form endpoint once domain email is live.
-  window.location.href = 'mailto:' + ['mediamarketmike','gmail.com'].join('@') + '?subject=' + subject + '&body=' + body;
+  const g=id=>(document.getElementById(id).value||'').trim();
+  const ename=g('ename'), name=g('name'), email=g('email'), elink=g('elink'), etype=g('etype'), msg=g('msg');
+  const btn=document.getElementById('sendBtn'); btn.disabled=true; btn.textContent='Sending…';
+  try{
+    await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+      body:JSON.stringify({access_key:ACCESS_KEY, subject:'Venu inquiry — '+(ename||'New event'), from_name:'thevenu.app',
+        'Event name':ename,'Contact':name,'Email':email,'Event type':etype,'Event link':elink,'Details':msg})});
+  }catch(_){}
+  const first = name ? name.split(' ')[0] : '';
+  document.getElementById('doneMsg').innerHTML = "We'll be in contact about <b>"+(ename?escHtml(ename):'your event')+"</b> soon"+(first?', '+escHtml(first):'')+"!";
+  document.getElementById('doneSub').textContent = "Looks like a seriously cool event — we're genuinely excited to work with you. Keep an eye on "+(email||'your inbox')+" for our note.";
+  document.getElementById('contactForm').hidden=true;
+  const done=document.getElementById('formDone'); done.hidden=false;
+  try{ if(typeof launchConfetti==='function') launchConfetti(); }catch(_){}
+  done.scrollIntoView({block:'center'});
 });
 
 /* ===== EXPERIENCE FACTORS — interactive demos ===== */
