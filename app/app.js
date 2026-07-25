@@ -53,6 +53,8 @@ document.getElementById("displayCaption").textContent = C.brand.displayCaption;
 document.getElementById("displaySub").textContent = C.brand.displaySub;
 document.title = C.brand.name + " — Event App";
 document.body.className = "theme-" + (C.theme || "pulse");
+const _tc = document.querySelector('meta[name="theme-color"]');
+if(_tc) _tc.setAttribute("content", C.theme === "gala" ? "#F7F4EC" : "#0A0A0B");
 
 /* ========================= TABS ========================= */
 const ICONS = {
