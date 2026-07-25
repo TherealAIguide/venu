@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Success Summit '26 — Event App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app">
+  <header class="appbar">
+    <div class="brandmark">
+      <span class="kicker" id="brandKicker"></span>
+      <span class="name" id="brandName"></span>
+    </div>
+    <div class="live-pill"><span class="live-dot"></span><span id="livePillText">DAY 1</span></div>
+  </header>
+
+  <main>
+    <!-- HOME / NOW -->
+    <section class="view active" id="view-home">
+      <div class="hero">
+        <div class="stripe"></div>
+        <div class="hero-inner">
+          <div class="now-label"><span class="live-dot"></span> Happening now</div>
+          <h1 id="nowTitle">—</h1>
+          <div class="meta" id="nowMeta">—</div>
+          <div class="next" id="nextUp"></div>
+        </div>
+      </div>
+
+      <h2 class="section">On the big screen <span class="tag">Photo wall</span></h2>
+      <div class="bigscreen-cta">
+        <h3>Get on the<br>big screen</h3>
+        <p>Snap a photo and it could be featured on the main stage screens during the break.</p>
+        <button class="btn" onclick="switchTab('wall'); document.getElementById('photoInput').click();">📸 &nbsp;Submit your photo</button>
+      </div>
+
+      <div class="demo-note">
+        Demo build · <a href="#mod" onclick="enterMod(event)">Moderator</a> · <a href="#display" onclick="enterDisplay(event)">Big screen</a>
+      </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section class="view" id="view-schedule">
+      <h2 class="section">Schedule <span class="tag" id="schedVenue"></span></h2>
+      <div class="daychips" id="dayChips"></div>
+      <div class="card" id="slotList"></div>
+    </section>
+
+    <!-- SPEAKERS -->
+    <section class="view" id="view-speakers">
+      <h2 class="section">Speakers <span class="tag">Lineup</span></h2>
+      <div class="card" id="speakerList"></div>
+    </section>
+
+    <!-- SPONSORS -->
+    <section class="view" id="view-sponsors">
+      <h2 class="section">Sponsors <span class="tag">Expo floor</span></h2>
+      <div id="sponsorList"></div>
+    </section>
+
+    <!-- PHOTO WALL -->
+    <section class="view" id="view-wall">
+      <h2 class="section">Photo wall <span class="tag">Fan cam</span></h2>
+      <div class="bigscreen-cta">
+        <h3>Your shot,<br>10 feet tall</h3>
+        <p>Approved photos rotate on the big screen during breaks. Keep it fun, keep it clean.</p>
+        <input type="file" id="photoInput" accept="image/*" capture="environment" hidden>
+        <button class="btn" id="submitBtn" onclick="document.getElementById('photoInput').click()">📸 &nbsp;Take or choose a photo</button>
+        <div class="status-banner" id="photoStatus"></div>
+        <div class="privacy-note">Photos are shared with event moderators and may appear on public screens.</div>
+      </div>
+      <h2 class="section">Recently featured <span class="tag">Approved</span></h2>
+      <div class="wall-grid" id="wallGrid"><div class="wall-empty">No photos featured yet — be the first.</div></div>
+    </section>
+
+    <!-- MODERATOR -->
+    <section class="view" id="view-mod">
+      <h2 class="section">Moderation <span class="tag">Staff only</span></h2>
+      <div class="mod-count" id="modCount">Loading queue…</div>
+      <div id="modQueue"></div>
+      <button class="btn ghost" onclick="loadModQueue()">↻ &nbsp;Refresh queue</button>
+    </section>
+  </main>
+
+  <nav class="tabbar" id="tabbar"></nav>
+</div>
+
+<!-- BIG SCREEN -->
+<div id="displayView">
+  <div class="frame" id="displayFrame"><div class="empty" id="displayEmpty">Waiting for your photos…<br>Scan the QR to join</div></div>
+  <div class="caption"><span class="live-dot"></span> <span id="displayCaption">FAN CAM</span></div>
+  <div class="subcap" id="displaySub"></div>
+</div>
+
+<script src="clients.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
