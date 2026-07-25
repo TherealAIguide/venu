@@ -1,70 +1,64 @@
 /* =========================================================================
    VENU — white-label event platform · thevenu.app
    ---------------------------------------------------------------------
-   CLIENT REGISTRY. Keyed by subdomain: tomferry.thevenu.app loads CLIENTS
-   .tomferry. Wildcard DNS (*.thevenu.app) means adding a client is a new
-   entry here — no DNS change, no redeploy target.
+   CLIENT REGISTRY. Keyed by subdomain: pulsefest.thevenu.app loads
+   CLIENTS.pulsefest. Wildcard DNS (*.thevenu.app) means adding a client is
+   a new entry here — no DNS change, no redeploy target.
 
    In production this object becomes a Firestore lookup by hostname; the
    shape stays identical, so nothing below this block changes.
-   Schedule & speaker data below are SAMPLE placeholders.
+   These are FICTIONAL sample events for demo purposes. Schedule, lineup,
+   speaker and sponsor names are placeholders.
    ========================================================================= */
 const CLIENTS = {};
 
-CLIENTS.tomferry = {
+/* --- Sample event A: a high-energy music festival.
+       Live at: pulsefest.thevenu.app  ·  preview with ?client=pulsefest
+       Deliberately the opposite vibe of the gala below — neon, loud, lineup-
+       driven, huge fan cam, no formal "speakers." --- */
+CLIENTS.pulsefest = {
   brand: {
-    kicker: "Tom Ferry",
-    name: "Success Summit '26",
-    venue: "Anaheim Convention Center",
-    accent: "#E4032E",
-    gold: "#F2B01E",
-    displayCaption: "SUMMIT FAN CAM",
-    displaySub: "Submit yours in the event app"
+    kicker: "Pulse Live",
+    name: "Pulse Fest '26",
+    venue: "Riverfront Arena",
+    accent: "#B14CE4",
+    gold: "#22D3EE",
+    displayCaption: "PULSE FAN CAM",
+    displaySub: "Tag #PulseFest to hit the screens"
   },
-  features: { schedule:true, speakers:true, sponsors:true, photoWall:true },
+  features: { schedule:true, speakers:false, sponsors:true, photoWall:true },
   days: [
-    { label:"Mon 8/3", slots:[
-      { time:"8:00",  title:"Doors + registration", who:"Main lobby", kind:"open" },
-      { time:"9:00",  title:"Opening keynote", who:"Tom Ferry · Main stage", kind:"main" },
-      { time:"11:00", title:"Market outlook panel", who:"Guest speakers (sample)", kind:"panel" },
-      { time:"12:30", title:"Lunch + expo floor", who:"Visit sponsor booths", kind:"break" },
-      { time:"2:00",  title:"Listing strategies workshop", who:"Sample session", kind:"session" },
-      { time:"4:30",  title:"Day 1 close + fan cam break", who:"Main stage screens", kind:"main" }
+    { label:"Fri 7/24", slots:[
+      { time:"4:00",  title:"Gates open", who:"Riverfront lawn", kind:"open" },
+      { time:"5:30",  title:"Opening set — DJ Vega (sample)", who:"Neon Stage", kind:"session" },
+      { time:"7:00",  title:"The Wildcards (sample)", who:"Main Stage", kind:"session" },
+      { time:"9:00",  title:"Headliner — AURORA SKY (sample)", who:"Main Stage", kind:"main" },
+      { time:"10:30", title:"Afterglow silent disco", who:"River Tent", kind:"break" }
     ]},
-    { label:"Tue 8/4", slots:[
-      { time:"9:00",  title:"Morning keynote", who:"Main stage (sample)", kind:"main" },
-      { time:"10:45", title:"Marketing & scripts intensive", who:"Sample session", kind:"session" },
-      { time:"12:30", title:"Lunch + expo floor", who:"Sponsor spotlight rotation", kind:"break" },
-      { time:"2:00",  title:"Team scaling breakout", who:"Sample session", kind:"session" },
-      { time:"4:30",  title:"Day 2 close + fan cam break", who:"Main stage screens", kind:"main" }
-    ]},
-    { label:"Wed 8/5", slots:[
-      { time:"9:00",  title:"Final day keynote", who:"Main stage (sample)", kind:"main" },
-      { time:"11:00", title:"Action planning session", who:"Sample session", kind:"session" },
-      { time:"1:00",  title:"Closing + send-off", who:"Tom Ferry · Main stage", kind:"main" }
+    { label:"Sat 7/25", slots:[
+      { time:"2:00",  title:"Gates open + food trucks", who:"Riverfront lawn", kind:"open" },
+      { time:"4:00",  title:"Rising Acts showcase (sample)", who:"Neon Stage", kind:"session" },
+      { time:"6:30",  title:"Crowd light show", who:"Main Stage screens", kind:"main" },
+      { time:"8:00",  title:"Headliner — BASSLINE (sample)", who:"Main Stage", kind:"main" },
+      { time:"10:00", title:"Fireworks + fan cam finale", who:"Main Stage", kind:"main" }
     ]}
   ],
-  speakers: [
-    { name:"Tom Ferry", role:"Host · Keynote" },
-    { name:"Sample Speaker", role:"Guest keynote (placeholder)" },
-    { name:"Sample Panelist", role:"Market outlook panel (placeholder)" },
-    { name:"Sample Trainer", role:"Workshop lead (placeholder)" }
-  ],
+  speakers: [],
   sponsors: [
-    { tier:"Title sponsors", items:[
-      { name:"PalmAgent", booth:"Booth 101 · Closing cost tech", url:"#" },
-      { name:"Sample Co", booth:"Booth 102 · Placeholder", url:"#" }
+    { tier:"Presenting partners", items:[
+      { name:"VoltEnergy", booth:"Main gate · Charging lounge", url:"#" },
+      { name:"Sample Brand", booth:"Neon Stage · Placeholder", url:"#" }
     ]},
-    { tier:"Expo partners", items:[
-      { name:"Sample Partner A", booth:"Booth 210", url:"#" },
-      { name:"Sample Partner B", booth:"Booth 214", url:"#" },
-      { name:"Sample Partner C", booth:"Booth 220", url:"#" }
+    { tier:"On-site partners", items:[
+      { name:"Riverfront Eats", booth:"Food row", url:"#" },
+      { name:"Sample Partner", booth:"Vendor village", url:"#" }
     ]}
   ]
 };
 
-/* --- Second client: proves the same codebase reskins entirely from config.
-       Live at: harborgala.thevenu.app  ·  preview here with ?client=harborgala --- */
+/* --- Sample event B: an elegant black-tie fundraiser.
+       Live at: harborgala.thevenu.app  ·  preview with ?client=harborgala
+       Proves the same codebase reskins into a completely different feel. --- */
 CLIENTS.harborgala = {
   brand:{
     kicker:"Harbor Foundation", name:"Harbor Gala", venue:"The Grand Ballroom",
@@ -93,17 +87,17 @@ CLIENTS.harborgala = {
 
 /* =========================================================================
    HOSTNAME RESOLVER — the multi-tenant switch.
-   tomferry.thevenu.app  → CLIENTS.tomferry
+   pulsefest.thevenu.app  → CLIENTS.pulsefest
    harborgala.thevenu.app → CLIENTS.harborgala
    Local/preview fallback: ?client=harborgala
    ========================================================================= */
 function resolveClient(){
   const override = new URLSearchParams(location.search).get("client");
   if(override && CLIENTS[override]) return CLIENTS[override];
-  const host = location.hostname;                 // e.g. tomferry.thevenu.app
+  const host = location.hostname;                 // e.g. pulsefest.thevenu.app
   const sub = host.split(".")[0];
   if(CLIENTS[sub]) return CLIENTS[sub];
-  return CLIENTS.tomferry;                        // default / sales demo
+  return CLIENTS.pulsefest;                        // default / sales demo
 }
 
 /* Returns the resolved client SLUG string (not the config object). Used to
@@ -114,5 +108,5 @@ function resolveSlug(){
   if(override && CLIENTS[override]) return override;
   const sub = location.hostname.split(".")[0];
   if(CLIENTS[sub]) return sub;
-  return "tomferry";                              // default / sales demo
+  return "pulsefest";                             // default / sales demo
 }
