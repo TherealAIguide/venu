@@ -73,7 +73,7 @@
   @media(max-width:720px){.nav-links a:not(.nav-cta){display:none;}}
 
   /* Hero — big bold wordmark */
-  .hero{position:relative;padding:76px 22px 84px;overflow:hidden;text-align:center;}
+  .hero{position:relative;padding:clamp(104px,16vh,172px) 22px 90px;overflow:hidden;text-align:center;}
   .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(90% 70% at 50% -5%,rgba(228,3,46,.24),transparent 60%);pointer-events:none;}
   .hero .wrap{position:relative;}
   .wordmark{
@@ -118,7 +118,7 @@
 
   /* Packages explorer */
   #packages{background:linear-gradient(180deg,transparent,rgba(20,20,23,.55));}
-  .type-carousel{display:flex;gap:12px;overflow-x:auto;padding:22px 2px 8px;scroll-snap-type:x mandatory;scrollbar-width:none;}
+  .type-carousel{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;touch-action:pan-x;overscroll-behavior-x:contain;padding:22px 2px 8px;scroll-snap-type:x mandatory;scrollbar-width:none;}
   .type-carousel::-webkit-scrollbar{display:none;}
   .type-card{
     flex:0 0 auto;scroll-snap-align:start;min-width:180px;text-align:left;cursor:pointer;
@@ -196,8 +196,7 @@
   html.play-intro{overflow:hidden;}
   #intro.hide{opacity:0;}
   #intro.flash{background:#fff;}
-  #intro.lift{background:transparent !important;}
-  #intro.lift #introCanvas,#intro.lift .intro-kick,#intro.lift .intro-sub,#intro.lift #introSkip{opacity:0;transition:opacity .45s ease;}
+  #intro.lift .intro-kick,#intro.lift .intro-sub,#intro.lift #introSkip{opacity:0;transition:opacity .4s ease;}
   #introCanvas{position:absolute;inset:0;width:100%;height:100%;}
   .intro-center{position:relative;z-index:2;text-align:center;pointer-events:none;padding:0 20px;}
   .intro-kick{font-size:11px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:40px;position:relative;z-index:3;opacity:0;animation:introKick .8s ease .2s forwards;}
@@ -247,6 +246,47 @@
   .reveal.in{opacity:1;transform:none;}
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}.ls-grid .cell{transition:none;}}
 
+  /* ===== polish round: digital tagline, edgier cards, pkg view, poll, qr, smoke exit ===== */
+  .hero .tagline .digital{color:var(--accent);animation:digitalGlow 3.4s ease-in-out infinite;}
+  @keyframes digitalGlow{
+    0%,100%{color:#E4032E;text-shadow:0 0 10px rgba(228,3,46,.5),0 0 26px rgba(228,3,46,.3);}
+    30%{color:#FF2D5E;text-shadow:0 0 14px rgba(255,45,94,.7),0 0 34px rgba(255,45,94,.4);}
+    55%{color:#FF0033;text-shadow:0 0 18px rgba(255,0,51,.85),0 0 46px rgba(255,0,51,.5);}
+    80%{color:#C80028;text-shadow:0 0 10px rgba(200,0,40,.55),0 0 24px rgba(200,0,40,.3);}
+  }
+
+  /* edgier event-type cards */
+  .type-card{position:relative;background:linear-gradient(160deg,#17171c,#0e0e11);}
+  .type-card .emoji{font-size:30px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));}
+  .type-card .nm{font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.03em;margin-top:10px;}
+  .type-card:hover{border-color:#43434d;box-shadow:0 10px 30px rgba(0,0,0,.45);}
+  .type-card.active{border-color:var(--accent);background:linear-gradient(160deg,rgba(228,3,46,.22),#0e0e11 72%);box-shadow:0 0 0 1px rgba(228,3,46,.5),0 12px 40px rgba(228,3,46,.22);}
+  .type-card.active .nm{color:#fff;}
+
+  /* compact package view — the whole package at a glance */
+  #modules.pkgview .mod.available{display:none;}
+  #modules.pkgview .mod{padding:11px 13px 11px 38px;}
+  #modules.pkgview .mod p{display:none;}
+  @media(min-width:1000px){.mod-grid{grid-template-columns:repeat(4,1fr);}}
+
+  /* poll vote feedback */
+  .poll-opt .you{opacity:0;color:var(--accent);font-weight:700;font-size:11px;transition:opacity .3s;}
+  .poll-opt.chosen .you{opacity:1;}
+  .poll-opt.chosen{animation:pollPop .5s ease;}
+  .poll-opt.chosen .fill{background:linear-gradient(90deg,var(--accent),#ff5e7a);box-shadow:0 0 16px rgba(228,3,46,.55);}
+  @keyframes pollPop{0%{transform:scale(1);}40%{transform:scale(1.03);}100%{transform:scale(1);}}
+
+  /* QR codes on the demo cards (web) */
+  .demo-link .qr{margin-top:16px;display:flex;align-items:center;gap:12px;}
+  .demo-link .qr img{width:82px;height:82px;border-radius:10px;background:#fff;padding:6px;flex:0 0 auto;}
+  .demo-link .qr span{font-size:12px;color:var(--muted);font-weight:600;}
+  @media(max-width:600px){.demo-link .qr{display:none;}}
+
+  /* intro smoke/breakup exit */
+  .intro-word.shatter{animation:none !important;transition:filter 1s ease,transform 1s ease,letter-spacing 1s ease,opacity 1s ease;filter:blur(40px);transform:scale(1.4);letter-spacing:.55em;opacity:0;}
+
+  @media(prefers-reduced-motion:reduce){.hero .tagline .digital{animation:none;}.poll-opt.chosen{animation:none;}}
+
   footer.site{border-top:1px solid var(--line);padding:34px 22px;color:var(--muted);font-size:13px;}
   .foot-inner{max-width:var(--maxw);margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;}
   .foot-inner .logo{font-size:20px;}
@@ -283,7 +323,7 @@
 
 <header class="nav">
   <div class="nav-inner">
-    <a href="#top" class="logo"><span class="dot"></span>Venu</a>
+    <a href="#top" class="logo" onclick="event.preventDefault(); if(window.runVenuIntro) runVenuIntro();"><span class="dot"></span>Venu</a>
     <nav class="nav-links">
       <a href="#how">How it works</a>
       <a href="#experience">Experience</a>
@@ -299,7 +339,7 @@
   <div class="wrap">
     <div class="kicker">White-label event apps</div>
     <div class="wordmark">Venu</div>
-    <h1 class="tagline">Every event deserves <span class="hl">its own app.</span></h1>
+    <h1 class="tagline">Every event deserves its own <span class="digital">digital experience.</span></h1>
     <p class="lede">A fully branded web app for your event, at your own address. Attendees scan a QR code, add it to their home screen, and the entire event lives in their pocket — schedule, networking, photo wall, sponsors, and more. No app store. No download.</p>
     <p class="venire"><em>venire</em> — Latin, "to come." The root of both <em>venue</em> and <em>event</em>. Everything starts with people showing up.</p>
     <div class="cta-row">
@@ -370,7 +410,7 @@
   <div class="wrap">
     <div class="kicker">Step inside</div>
     <h2 class="sec">Now put your crowd <span class="hl">inside it.</span></h2>
-    <p class="sec-lede" style="margin:0 auto;">Every feature ahead is a live moment your attendees <em>feel</em> — not a bullet point. Keep going; the room changes as you travel.</p>
+    <p class="sec-lede" style="margin:0 auto;">Every feature ahead is a live moment your attendees <em>feel</em> — not a bullet point.</p>
   </div>
 </section>
 
@@ -453,11 +493,13 @@
           <div class="ev">Pulse Fest '26</div>
           <div class="host">pulsefest.thevenu.app ↗</div>
           <div class="meta">A high-energy music festival — electric neon brand, two-day lineup, food &amp; brand partners, and a crowd fan cam blasting to the main screens.</div>
+          <div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;margin=6&amp;data=https://pulsefest.thevenu.app" alt="Scan to open Pulse Fest on your phone" loading="lazy"><span>Scan to open<br>on your phone</span></div>
         </a>
         <a class="demo-link" href="https://harborgala.thevenu.app" target="_blank" rel="noopener">
           <div class="ev">Harbor Gala</div>
           <div class="host">harborgala.thevenu.app ↗</div>
           <div class="meta">A black-tie fundraiser — refined gold brand, dinner program, honorees, live giving, and a dance-floor photo wall.</div>
+          <div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;margin=6&amp;data=https://harborgala.thevenu.app" alt="Scan to open Harbor Gala on your phone" loading="lazy"><span>Scan to open<br>on your phone</span></div>
         </a>
       </div>
       <p class="demo-note">Tip: open on your phone and use "Add to Home Screen" to see how attendees install it.</p>
@@ -471,8 +513,7 @@
     <h2 class="sec">Bring your event <span class="hl">to life.</span></h2>
     <div class="contact-grid">
       <div class="contact-copy">
-        <p>Planning a conference, gala, trade show, or arena show? Tell us about it and we'll put together a branded demo for your event.</p>
-        <p>Prefer email? Reach us at <a class="mail" href="mailto:mediamarketmike@gmail.com?subject=Venu%20event%20app%20inquiry">mediamarketmike@gmail.com</a>.</p>
+        <p>Planning a conference, gala, wedding, trade show, or arena show? Tell us about it — include your event link if you have one — and we'll build you a branded demo.</p>
       </div>
       <form id="contactForm">
         <div class="field">
@@ -482,6 +523,10 @@
         <div class="field">
           <label for="email">Email</label>
           <input id="email" name="email" type="email" placeholder="you@company.com" required>
+        </div>
+        <div class="field">
+          <label for="elink">Your event link (site, ticket page, or socials)</label>
+          <input id="elink" name="elink" type="text" placeholder="https:// … (optional, but it helps us prep)">
         </div>
         <div class="field">
           <label for="etype">Event type</label>
@@ -498,7 +543,7 @@
           <textarea id="msg" name="msg" placeholder="Dates, size, what you're hoping the app can do..."></textarea>
         </div>
         <button class="btn primary" type="submit">Send inquiry</button>
-        <p class="form-note">Opens your email app with the details ready to send.</p>
+        <p class="form-note">Sends your details straight to the Venu team.</p>
       </form>
     </div>
   </div>
@@ -515,77 +560,110 @@
 <div id="wash"></div>
 
 <script>
-/* ===== INTRO — immersive first-visit entry ("the room comes alive") ===== */
-(function(){
+/* ===== INTRO — immersive entry: room fills with light, then the wordmark
+   breaks apart into smoke that fills the screen and clears to reveal the site.
+   Runs on first visit, and re-triggerable by clicking the VENU logo. ===== */
+function runVenuIntro(){
   const root = document.documentElement;
   const overlay = document.getElementById('intro');
-  if(!root.classList.contains('play-intro') || !overlay){ return; }
+  if(!overlay) return;
   try{
+    // (re)set overlay state so replays start clean
+    overlay.style.display = 'flex';
+    overlay.classList.remove('hide','lift');
+    root.classList.add('play-intro');
+    const introWord = document.querySelector('.intro-word');
+    if(introWord){
+      introWord.classList.remove('shatter');
+      introWord.style.cssText = '';
+      introWord.style.animation = 'none'; void introWord.offsetWidth; introWord.style.animation = ''; // restart introPop
+    }
     const cv = document.getElementById('introCanvas');
     const cx = cv.getContext('2d');
-    let W,H; const size=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight;}; size(); addEventListener('resize',size);
+    let W,H; const size=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight;}; size();
+    if(!runVenuIntro._resize){ runVenuIntro._resize=true; addEventListener('resize',()=>{ if(root.classList.contains('play-intro')) size(); }); }
     const PALI=['#E4032E','#F2B01E','#2E9BE4','#4CC26B','#B14CE4','#FF5E00','#FFFFFF'];
     const N=140, lights=[];
     for(let i=0;i<N;i++){
       lights.push({x:Math.random()*W, y:H*0.32+Math.random()*H*0.62, r:1.4+Math.random()*2.6, tw:Math.random()*6.28, col:PALI[i%PALI.length], drift:(Math.random()-0.5)*0.3});
     }
-    const t0=performance.now(); let done=false, animId=null;
+    let embers=[];                       // exit particles
+    const cX=()=>W/2, cY=()=>H*0.5;
+    const t0=performance.now(); let done=false, exitAt=0, animId=null, ended=false;
+
     function frame(now){
       const e=now-t0;
       cx.clearRect(0,0,W,H);
-      const fadeIn=Math.min(1,e/900);
-      const waveProg=(e-900)/1600;                 // color wave sweeps across after 0.9s
-      for(let i=0;i<N;i++){
-        const p=lights[i]; p.x+=p.drift; p.tw+=0.05;
-        if(p.x<0)p.x+=W; if(p.x>W)p.x-=W;
-        const twinkle=0.5+0.5*Math.sin(p.tw);
-        const hit = waveProg > (p.x/W)*0.85;        // this light has caught the wave
-        const alpha=fadeIn*(0.22+0.78*twinkle)*(hit?1:0.5);
-        const color=hit?p.col:'#5a5a63';
-        cx.globalAlpha=Math.min(1,alpha);
-        cx.beginPath(); cx.arc(p.x,p.y,p.r*(hit?1.7:1),0,6.28);
-        cx.fillStyle=color; cx.shadowBlur=hit?14:6; cx.shadowColor=color; cx.fill();
+      if(!done){
+        // build-up: lights fade in, color wave sweeps across
+        const fadeIn=Math.min(1,e/900);
+        const waveProg=(e-900)/1600;
+        for(const p of lights){
+          p.x+=p.drift; p.tw+=0.05;
+          if(p.x<0)p.x+=W; if(p.x>W)p.x-=W;
+          const twinkle=0.5+0.5*Math.sin(p.tw);
+          const hit = waveProg > (p.x/W)*0.85;
+          cx.globalAlpha=Math.min(1,fadeIn*(0.22+0.78*twinkle)*(hit?1:0.5));
+          cx.beginPath(); cx.arc(p.x,p.y,p.r*(hit?1.7:1),0,6.28);
+          const color=hit?p.col:'#5a5a63';
+          cx.fillStyle=color; cx.shadowBlur=hit?14:6; cx.shadowColor=color; cx.fill();
+        }
+        cx.globalAlpha=1; cx.shadowBlur=0;
+        if(e>3400){ startExit(); }
+      } else {
+        // exit: smoke cloud grows to fill the screen + embers scatter from the wordmark
+        const ee=(now-exitAt)/900;                 // 0..1
+        const R=Math.max(W,H)*(0.12+ee*1.15);
+        const a=Math.max(0, 0.55*(1-Math.abs(ee-0.45)*1.4));
+        const g=cx.createRadialGradient(cX(),cY(),0,cX(),cY(),R);
+        g.addColorStop(0,`rgba(150,150,162,${a})`);
+        g.addColorStop(1,'rgba(150,150,162,0)');
+        cx.fillStyle=g; cx.fillRect(0,0,W,H);
+        for(const p of embers){
+          if(p.life<=0) continue;
+          p.x+=p.vx; p.y+=p.vy; p.vy+=0.04; p.vx*=0.99; p.life-=0.012;
+          cx.globalAlpha=Math.max(0,p.life);
+          cx.beginPath(); cx.arc(p.x,p.y,p.r,0,6.28);
+          cx.fillStyle=p.col; cx.shadowBlur=12; cx.shadowColor=p.col; cx.fill();
+        }
+        cx.globalAlpha=1; cx.shadowBlur=0;
       }
-      cx.globalAlpha=1; cx.shadowBlur=0;
-      if(e>3400 && !done){ done=true; reveal(); }
-      if(!done) animId=requestAnimationFrame(frame);
+      animId=requestAnimationFrame(frame);
     }
-    animId=requestAnimationFrame(frame);
-    function reveal(){
-      const hero = document.querySelector('.wordmark');
-      const introWord = document.querySelector('.intro-word');
-      overlay.classList.add('lift');                    // fade lights, kicker, sub, skip + bg → transparent
-      if(hero && introWord){
-        // FLIP: morph the intro VENU onto the hero VENU so the two never "cut"
-        const i = introWord.getBoundingClientRect();
-        const h = hero.getBoundingClientRect();
-        const s = h.width / i.width;
-        introWord.style.animation = 'none';
-        introWord.style.opacity = '1';
-        introWord.style.transform = 'none';
-        void introWord.offsetWidth;                     // reflow so the transition animates
-        introWord.style.transformOrigin = 'top left';
-        introWord.style.transition = 'transform .9s cubic-bezier(.7,0,.2,1), text-shadow .9s ease';
-        introWord.style.textShadow = '0 0 80px rgba(228,3,46,.18)';
-        introWord.style.transform = `translate(${h.left - i.left}px, ${h.top - i.top}px) scale(${s})`;
+
+    function startExit(){
+      if(done) return;
+      done=true; exitAt=performance.now();
+      if(introWord) introWord.classList.add('shatter');   // blur/scale/spread → smoke
+      const r = introWord ? introWord.getBoundingClientRect() : {left:W/2-200,top:H*0.4,width:400,height:160};
+      for(let i=0;i<170;i++){
+        const px=r.left+Math.random()*r.width, py=r.top+Math.random()*r.height;
+        const ang=Math.atan2(py-cY(),px-cX())+(Math.random()-0.5)*1.1;
+        const sp=2+Math.random()*7;
+        embers.push({x:px,y:py,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp-1,r:1.5+Math.random()*3,life:1,col:PALI[Math.floor(Math.random()*PALI.length)]});
       }
-      setTimeout(()=>{ try{ if(typeof launchConfetti==='function') launchConfetti(); }catch(e){} }, 220);
-      setTimeout(endIntro, 950);
+      overlay.classList.add('lift');                       // fade kicker/sub/skip
+      setTimeout(endIntro, 1050);
     }
-    let ended=false;
+
     function endIntro(){
       if(ended) return; ended=true;
       try{ sessionStorage.setItem('venuIntro','1'); }catch(e){}
-      overlay.classList.add('hide');
+      overlay.classList.add('hide');                       // fade whole overlay → reveal site
       setTimeout(()=>{ overlay.style.display='none'; root.classList.remove('play-intro'); if(animId)cancelAnimationFrame(animId); }, 760);
     }
-    document.getElementById('introSkip').addEventListener('click',ev=>{ ev.stopPropagation(); endIntro(); });
-    overlay.addEventListener('click', endIntro);
+
+    const skipBtn=document.getElementById('introSkip');
+    if(skipBtn) skipBtn.onclick=ev=>{ ev.stopPropagation(); startExit(); };
+    overlay.onclick=()=>{ done ? endIntro() : startExit(); };
+
+    animId=requestAnimationFrame(frame);
   }catch(err){
-    // Never trap the visitor behind a broken intro
-    overlay.style.display='none'; root.classList.remove('play-intro');
+    overlay.style.display='none'; document.documentElement.classList.remove('play-intro');
   }
-})();
+}
+window.runVenuIntro = runVenuIntro;
+if(document.documentElement.classList.contains('play-intro')){ runVenuIntro(); }
 
 /* ===== Module registry (mirrors the internal package builder) ===== */
 const MODULES = [
@@ -703,6 +781,7 @@ function selectType(typeId){
   TYPES.forEach(t=>document.getElementById("type-"+t.id).classList.toggle("active", t.id===typeId));
 
   const custom = typeId === "custom";
+  document.getElementById("modules").classList.toggle("pkgview", !custom);
   const included = custom ? new Set() : resolveIncluded(typeId);
   const common = custom ? new Set() : new Set((COMMON[typeId]||[]).filter(id=>!included.has(id)));
 
@@ -727,18 +806,20 @@ function selectType(typeId){
   }
 }
 
-selectType("conference");
+selectType("custom");
 
 /* Contact form → opens the visitor's email client with details prefilled. */
 document.getElementById('contactForm').addEventListener('submit', function(e){
   e.preventDefault();
   const name = document.getElementById('name').value || '';
   const email = document.getElementById('email').value || '';
+  const elink = document.getElementById('elink').value || '';
   const etype = document.getElementById('etype').value || '';
   const msg = document.getElementById('msg').value || '';
   const subject = encodeURIComponent('Venu inquiry — ' + etype + (name ? ' — ' + name : ''));
-  const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nEvent type: ' + etype + '\n\n' + msg);
-  window.location.href = 'mailto:mediamarketmike@gmail.com?subject=' + subject + '&body=' + body;
+  const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nEvent type: ' + etype + '\nEvent link: ' + elink + '\n\n' + msg);
+  // Routed to the Venu inbox (address not shown on the page). Swap for a hosted form endpoint once domain email is live.
+  window.location.href = 'mailto:' + ['mediamarketmike','gmail.com'].join('@') + '?subject=' + subject + '&body=' + body;
 });
 
 /* ===== EXPERIENCE FACTORS — interactive demos ===== */
@@ -763,11 +844,19 @@ let voted=false;
 const pollEl=document.getElementById('poll');
 pollEl.innerHTML=`<div class="poll-q">${POLL.q}</div>`+POLL.opts.map((o,i)=>`
   <div class="poll-opt" id="opt-${i}" onclick="vote(${i})">
-    <div class="row"><span>${o.t}</span><span id="pct-${i}">0%</span></div>
+    <div class="row"><span>${o.t}<span class="you"> ✓ your vote</span></span><span id="pct-${i}">0%</span></div>
     <div class="track"><div class="fill" id="fill-${i}"></div></div>
   </div>`).join('');
-function renderPoll(){const tot=POLL.opts.reduce((a,o)=>a+o.v,0);POLL.opts.forEach((o,i)=>{const p=Math.round(o.v/tot*100);document.getElementById('fill-'+i).style.width=p+'%';document.getElementById('pct-'+i).textContent=p+'%';});}
-function vote(i){if(voted)return;voted=true;POLL.opts[i].v+=1;renderPoll();}
+function pollPct(){const tot=POLL.opts.reduce((a,o)=>a+o.v,0);return POLL.opts.map(o=>Math.round(o.v/tot*100));}
+function renderPoll(){pollPct().forEach((v,i)=>{document.getElementById('fill-'+i).style.width=v+'%';document.getElementById('pct-'+i).textContent=v+'%';});}
+function animatePoll(){
+  pollPct().forEach((tv,i)=>{
+    document.getElementById('fill-'+i).style.width=tv+'%';
+    const el=document.getElementById('pct-'+i); const start=parseInt(el.textContent)||0; const s=performance.now();
+    (function tick(now){const k=Math.min(1,(now-s)/700);el.textContent=Math.round(start+(tv-start)*k)+'%';if(k<1)requestAnimationFrame(tick);})(performance.now());
+  });
+}
+function vote(i){if(voted)return;voted=true;POLL.opts[i].v+=3;document.getElementById('opt-'+i).classList.add('chosen');animatePoll();}
 setTimeout(renderPoll,400);
 
 /* Fan cam rotation */
