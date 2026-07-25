@@ -1,0 +1,16 @@
+/* =========================================================================
+   VENU — shared design tokens
+   The single source of truth for the visual system across /site and /app.
+   Dark theme · Anton display type · Inter body · red accent #E4032E.
+   Per-client accent/gold are overridden at runtime by app.js from the
+   client's brand config; these are the platform defaults.
+   ========================================================================= */
+:root{
+  --bg:#0A0A0B; --surface:#141417; --surface2:#1D1D21;
+  --accent:#E4032E; --accent-soft:rgba(228,3,46,.14);
+  --ink:#F5F3EE; --muted:#8E8E97; --line:#2A2A2F;
+  --gold:#F2B01E;
+  --display:'Anton', 'Arial Narrow', sans-serif;
+  --body:'Inter', -apple-system, system-ui, sans-serif;
+  --radius:14px;
+}
