@@ -1,28 +1,44 @@
 /* =========================================================================
-   STORAGE ADAPTER
-   Demo: uses Claude artifact storage (shared across viewers of this artifact).
-   Production: replace these four methods with Firebase / Supabase calls.
-   Key layout: photowall-index (JSON array of ids), photowall:{id} (JSON photo)
+   STORAGE ADAPTER — Firebase (Firestore)
+   ---------------------------------------------------------------------
+   Backed by Cloud Firestore (project venu-b5134). The five method
+   signatures are IDENTICAL to the original demo adapter, so nothing else
+   in the app changes.
+
+   Every key is scoped by client slug so one event's photos can never leak
+   into another's:  clients/{slug}/photos/{id}
+   The photos collection itself IS the index, so getIndex() queries it and
+   setIndex() is a no-op kept only for signature compatibility.
+
+   Photos are stored as the resized display image (a ~700px JPEG data URL,
+   typically 50-150KB) in the doc's `img` field. Full-resolution originals
+   in Cloud Storage are a later upgrade (requires the Blaze plan).
+   Doc shape: { img, status: "pending"|"approved", ts }
    ========================================================================= */
+const SLUG = resolveSlug();
+const photosCol = () => db.collection("clients").doc(SLUG).collection("photos");
+
 const store = {
-  available: typeof window.storage !== "undefined",
+  available: true,
   async getIndex(){
-    try{ const r = await window.storage.get("photowall-index", true); return JSON.parse(r.value); }
-    catch(e){ return []; }
+    try{
+      const snap = await photosCol().orderBy("ts").get();
+      return snap.docs.map(d => d.id);
+    }catch(e){ return []; }
   },
-  async setIndex(ids){
-    try{ await window.storage.set("photowall-index", JSON.stringify(ids), true); }catch(e){}
-  },
+  async setIndex(ids){ /* no-op: the photos collection is the source of truth */ },
   async getPhoto(id){
-    try{ const r = await window.storage.get("photowall:"+id, true); return JSON.parse(r.value); }
-    catch(e){ return null; }
+    try{
+      const doc = await photosCol().doc(id).get();
+      return doc.exists ? doc.data() : null;
+    }catch(e){ return null; }
   },
   async setPhoto(id, obj){
-    try{ await window.storage.set("photowall:"+id, JSON.stringify(obj), true); return true; }
+    try{ await photosCol().doc(id).set(obj, { merge:true }); return true; }
     catch(e){ return false; }
   },
   async delPhoto(id){
-    try{ await window.storage.delete("photowall:"+id, true); }catch(e){}
+    try{ await photosCol().doc(id).delete(); }catch(e){}
   }
 };
 

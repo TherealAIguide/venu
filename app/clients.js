@@ -105,3 +105,14 @@ function resolveClient(){
   if(CLIENTS[sub]) return CLIENTS[sub];
   return CLIENTS.tomferry;                        // default / sales demo
 }
+
+/* Returns the resolved client SLUG string (not the config object). Used to
+   scope every storage key by client so one event's photos never leak into
+   another's. Mirrors resolveClient()'s selection logic exactly. */
+function resolveSlug(){
+  const override = new URLSearchParams(location.search).get("client");
+  if(override && CLIENTS[override]) return override;
+  const sub = location.hostname.split(".")[0];
+  if(CLIENTS[sub]) return sub;
+  return "tomferry";                              // default / sales demo
+}
