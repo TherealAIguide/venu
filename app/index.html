@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Venu — Event App</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -39,7 +39,7 @@
       <div class="bigscreen-cta">
         <h3>Get on the<br>big screen</h3>
         <p>Snap a photo and it could be featured on the main stage screens during the break.</p>
-        <button class="btn" onclick="switchTab('wall'); document.getElementById('photoInput').click();">📸 &nbsp;Submit your photo</button>
+        <button class="btn" onclick="switchTab('wall'); document.getElementById('photoInput').click();">Submit your photo</button>
       </div>
 
       <div class="demo-note">
@@ -73,7 +73,7 @@
         <h3>Your shot,<br>10 feet tall</h3>
         <p>Approved photos rotate on the big screen during breaks. Keep it fun, keep it clean.</p>
         <input type="file" id="photoInput" accept="image/*" capture="environment" hidden>
-        <button class="btn" id="submitBtn" onclick="document.getElementById('photoInput').click()">📸 &nbsp;Take or choose a photo</button>
+        <button class="btn" id="submitBtn" onclick="document.getElementById('photoInput').click()">Take or choose a photo</button>
         <div class="status-banner" id="photoStatus"></div>
         <div class="privacy-note">Photos are shared with event moderators and may appear on public screens.</div>
       </div>
@@ -86,7 +86,7 @@
       <h2 class="section">Moderation <span class="tag">Staff only</span></h2>
       <div class="mod-count" id="modCount">Loading queue…</div>
       <div id="modQueue"></div>
-      <button class="btn ghost" onclick="loadModQueue()">↻ &nbsp;Refresh queue</button>
+      <button class="btn ghost" onclick="loadModQueue()">Refresh queue</button>
     </section>
   </main>
 

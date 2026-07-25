@@ -199,3 +199,67 @@ body.display-mode #displayView{display:flex;}
   margin-top:22px; font-size:11.5px; color:var(--muted); text-align:center; line-height:1.6;
 }
 .demo-note a{color:var(--accent); text-decoration:none; font-weight:600;}
+
+/* ===== SVG tab icons (emoji-free) ===== */
+.tabbar .ico svg{width:20px; height:20px; display:block;}
+
+/* =========================================================================
+   PER-CLIENT THEMES — same engine, two very different products.
+   theme-pulse = high-energy neon festival · theme-gala = elegant serif gala
+   ========================================================================= */
+
+/* ---------- PULSE (festival: condensed caps, neon, energetic) ---------- */
+body.theme-pulse{
+  --display:'Bebas Neue','Anton',sans-serif;
+  --body:'Space Grotesk',-apple-system,system-ui,sans-serif;
+  --radius:8px;
+  background:
+    radial-gradient(90% 55% at 50% -8%, rgba(177,76,228,.22), transparent 60%),
+    radial-gradient(70% 50% at 100% 100%, rgba(34,211,238,.13), transparent 60%),
+    var(--bg);
+}
+.theme-pulse .brandmark .kicker{letter-spacing:.34em;}
+.theme-pulse .brandmark .name{font-size:32px; letter-spacing:.06em; text-shadow:0 0 22px rgba(177,76,228,.55);}
+.theme-pulse .live-dot{box-shadow:0 0 8px var(--accent);}
+.theme-pulse h2.section{font-size:28px; letter-spacing:.05em;}
+.theme-pulse .hero{border:1px solid rgba(177,76,228,.4); box-shadow:0 0 44px rgba(177,76,228,.18);}
+.theme-pulse .hero .stripe{height:5px; background:linear-gradient(90deg,var(--accent),var(--gold));}
+.theme-pulse .hero h1{font-size:38px; letter-spacing:.04em;}
+.theme-pulse .btn{
+  background:linear-gradient(90deg,var(--accent),var(--gold)); color:#0A0A0B; font-weight:700;
+  text-transform:uppercase; letter-spacing:.09em; box-shadow:0 0 26px rgba(177,76,228,.45);
+}
+.theme-pulse .bigscreen-cta{border-color:rgba(177,76,228,.38);
+  background:radial-gradient(120% 90% at 80% 0%, rgba(177,76,228,.22), transparent 55%), var(--surface);}
+.theme-pulse .daychips button.active{background:var(--accent); border-color:var(--accent);}
+.theme-pulse .tabbar button.active{color:var(--accent);}
+.theme-pulse .tabbar button.active .ico{background:rgba(177,76,228,.2); color:var(--accent); box-shadow:0 0 14px rgba(177,76,228,.4);}
+
+/* ---------- GALA (refined: serif, gold, airy, understated) ---------- */
+body.theme-gala{
+  --display:'Playfair Display',Georgia,serif;
+  --body:'Inter',-apple-system,system-ui,sans-serif;
+  --radius:4px;
+  background:radial-gradient(120% 80% at 50% -18%, rgba(201,162,39,.10), transparent 55%), #0C0B09;
+}
+.theme-gala main{padding-top:8px;}
+.theme-gala .brandmark .kicker{letter-spacing:.3em; color:var(--gold);}
+.theme-gala .brandmark .name{font-size:27px; text-transform:none; font-weight:700; letter-spacing:.005em;}
+.theme-gala h2.section{text-transform:none; font-weight:700; font-size:25px; letter-spacing:.005em;}
+.theme-gala h2.section .tag{font-style:italic; text-transform:none; letter-spacing:.02em;}
+.theme-gala .hero{border-color:rgba(201,162,39,.28); background:#141210;}
+.theme-gala .hero .stripe{height:2px; background:var(--gold);}
+.theme-gala .hero h1{text-transform:none; font-size:32px; letter-spacing:.005em;}
+.theme-gala .hero .now-label{color:var(--gold);}
+.theme-gala .card,.theme-gala .bigscreen-cta{border-color:rgba(201,162,39,.26); background:#141210;}
+.theme-gala .bigscreen-cta h3{text-transform:none; font-size:28px;}
+.theme-gala .btn{
+  background:transparent; color:var(--gold); border:1px solid var(--gold);
+  font-weight:600; text-transform:none; letter-spacing:.02em; box-shadow:none;
+}
+.theme-gala .btn:active{transform:scale(.99);}
+.theme-gala .daychips button.active{background:var(--gold); border-color:var(--gold); color:#0C0B09;}
+.theme-gala .slot .time{color:var(--gold);}
+.theme-gala .tabbar button.active{color:var(--gold);}
+.theme-gala .tabbar button.active .ico{background:rgba(201,162,39,.15); color:var(--gold); box-shadow:none;}
+.theme-gala .sponsor-tier{color:var(--gold);}

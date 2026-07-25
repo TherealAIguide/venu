@@ -52,14 +52,22 @@ document.getElementById("schedVenue").textContent = C.brand.venue;
 document.getElementById("displayCaption").textContent = C.brand.displayCaption;
 document.getElementById("displaySub").textContent = C.brand.displaySub;
 document.title = C.brand.name + " — Event App";
+document.body.className = "theme-" + (C.theme || "pulse");
 
 /* ========================= TABS ========================= */
+const ICONS = {
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+  schedule:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+  speakers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>',
+  sponsors:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17l-6.2 3.6 1.6-6.7L2.2 8.9l6.9-.6z"/></svg>',
+  wall:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/></svg>'
+};
 const TABS = [
-  { id:"home", label:"Now", ico:"⚡", show:true },
-  { id:"schedule", label:"Schedule", ico:"🗓", show:C.features.schedule },
-  { id:"speakers", label:"Speakers", ico:"🎤", show:C.features.speakers },
-  { id:"sponsors", label:"Sponsors", ico:"🤝", show:C.features.sponsors },
-  { id:"wall", label:"Photo wall", ico:"📸", show:C.features.photoWall }
+  { id:"home", label:"Now", ico:ICONS.home, show:true },
+  { id:"schedule", label:"Schedule", ico:ICONS.schedule, show:C.features.schedule },
+  { id:"speakers", label:"Speakers", ico:ICONS.speakers, show:C.features.speakers },
+  { id:"sponsors", label:"Sponsors", ico:ICONS.sponsors, show:C.features.sponsors },
+  { id:"wall", label:"Photo wall", ico:ICONS.wall, show:C.features.photoWall }
 ];
 const tabbar = document.getElementById("tabbar");
 TABS.filter(t=>t.show).forEach(t=>{
@@ -151,7 +159,7 @@ document.getElementById("photoInput").addEventListener("change", async (e)=>{
       ? "Upload didn't go through. Try a smaller photo or try again."
       : "Storage isn't available in this preview — works once deployed.";
   }
-  btn.disabled = false; btn.textContent = "📸  Take or choose a photo";
+  btn.disabled = false; btn.textContent = "Take or choose a photo";
   e.target.value = "";
 });
 
@@ -207,7 +215,7 @@ async function loadModQueue(){
         <button class="ok" onclick="modAction('${p.id}','approved')">Approve</button>
         <button class="no" onclick="modAction('${p.id}','rejected')">Reject</button>
       </div>
-    </div>`).join("") || `<div class="card wall-empty">Queue is clear 🎉</div>`;
+    </div>`).join("") || `<div class="card wall-empty">Queue is clear.</div>`;
 }
 async function modAction(id, status){
   const p = await store.getPhoto(id);

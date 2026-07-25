@@ -17,6 +17,7 @@ const CLIENTS = {};
        Deliberately the opposite vibe of the gala below — neon, loud, lineup-
        driven, huge fan cam, no formal "speakers." --- */
 CLIENTS.pulsefest = {
+  theme: "pulse",
   brand: {
     kicker: "Pulse Live",
     name: "Pulse Fest '26",
@@ -60,6 +61,7 @@ CLIENTS.pulsefest = {
        Live at: harborgala.thevenu.app  ·  preview with ?client=harborgala
        Proves the same codebase reskins into a completely different feel. --- */
 CLIENTS.harborgala = {
+  theme: "gala",
   brand:{
     kicker:"Harbor Foundation", name:"Harbor Gala", venue:"The Grand Ballroom",
     accent:"#C9A227", gold:"#7FB2C4",
