@@ -266,7 +266,10 @@
   /* compact package view — the whole package at a glance */
   #modules.pkgview .mod.available{display:none;}
   #modules.pkgview .mod{padding:11px 13px 11px 38px;}
-  #modules.pkgview .mod p{display:none;}
+  .custom-callout{margin-top:24px;background:radial-gradient(120% 130% at 100% 0%,rgba(228,3,46,.14),var(--surface) 60%);border:1px solid rgba(228,3,46,.35);border-radius:18px;padding:24px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+  .custom-callout h3{font-family:var(--display);font-size:22px;text-transform:uppercase;letter-spacing:.02em;}
+  .custom-callout p{color:var(--muted);font-size:14px;margin-top:6px;max-width:62ch;}
+  .custom-callout .btn{flex:0 0 auto;}
   @media(min-width:1000px){.mod-grid{grid-template-columns:repeat(4,1fr);}}
 
   /* poll vote feedback */
@@ -340,7 +343,7 @@
     <div class="kicker">White-label event apps</div>
     <div class="wordmark">Venu</div>
     <h1 class="tagline">Every event deserves its own <span class="digital">digital experience.</span></h1>
-    <p class="lede">A fully branded web app for your event, at your own address. Attendees scan a QR code, add it to their home screen, and the entire event lives in their pocket — schedule, networking, photo wall, sponsors, and more. No app store. No download.</p>
+    <p class="lede">A fully branded web app for your event — curated for your attendees' experience with your brand. They scan a QR code, add it to their home screen, and the whole event lives in their pocket: schedule, networking, photo wall, sponsors, and more. No app store. No download.</p>
     <p class="venire"><em>venire</em> — Latin, "to come." The root of both <em>venue</em> and <em>event</em>. Everything starts with people showing up.</p>
     <div class="cta-row">
       <a class="btn primary" href="#demo">▶&nbsp; See the live demo</a>
@@ -359,7 +362,7 @@
   <div class="wrap">
     <div class="kicker">What is Venu</div>
     <h2 class="sec">One platform. <span class="hl">Every event, its own.</span></h2>
-    <p class="sec-lede">Venu is a white-label event app platform. One codebase reskins entirely from a per-client config, so every organizer gets an experience that feels built just for them.</p>
+    <p class="sec-lede">Venu is a white-label event platform. Every event is built around your brand, your attendees, and the moments that matter — not a template with your logo dropped on top.</p>
     <div class="pillars">
       <div class="pillar">
         <div class="idx">01</div>
@@ -369,7 +372,7 @@
       <div class="pillar">
         <div class="idx">02</div>
         <h3>Total white-label</h3>
-        <p>Your logo, your colors, your name across every screen — at your own address or your own domain. It's <strong>your</strong> app, not "an event app."</p>
+        <p>Your logo, your colors, your name across every screen — curated for your attendees and your brand. It's <strong>your</strong> app, not "an event app."</p>
       </div>
       <div class="pillar">
         <div class="idx">03</div>
@@ -467,7 +470,7 @@
   <div class="wrap">
     <div class="kicker">Build your package</div>
     <h2 class="sec">Pick your event. <span class="hl">See what's inside.</span></h2>
-    <p class="sec-lede">Every event type comes with a recommended package. Tap through to see which modules are included and which are the popular add-ons — all reskinned to your brand.</p>
+    <p class="sec-lede">Each event type has a recommended starting package — but this is just the beginning. Mix in any module, and we design and build custom ones for your event, brand, and attendee experience. Nothing here is off-the-shelf.</p>
 
     <div class="type-carousel" id="typeCarousel"></div>
 
@@ -479,6 +482,14 @@
     <p class="pkg-summary" id="pkgSummary"></p>
 
     <div id="modules"></div>
+
+    <div class="custom-callout">
+      <div>
+        <h3>Don't see it? We'll build it.</h3>
+        <p>This list is a starting point, not the menu. Geo-fenced photo ops, area-specific alerts, bespoke interactions — if you can picture it, we design and build it around your event, brand, and attendee experience. Consultation included.</p>
+      </div>
+      <a class="btn primary" href="#contact">Start a custom build</a>
+    </div>
   </div>
 </section>
 
@@ -670,7 +681,7 @@ const MODULES = [
   {id:"schedule",cat:"Core",name:"Schedule & agenda",desc:"Multi-day agenda with live 'happening now'",requires:[],fits:["conference","tradeshow","gala","arena","wedding"]},
   {id:"speakers",cat:"Core",name:"Speaker profiles",desc:"Bios, photos, session links",requires:["schedule"],fits:["conference","tradeshow"]},
   {id:"announce",cat:"Core",name:"Announcements",desc:"Banner updates from organizers",requires:[],fits:["conference","tradeshow","gala","arena","wedding"]},
-  {id:"venueMap",cat:"Core",name:"Venue map",desc:"Interactive floor plan / booth map",requires:[],fits:["tradeshow","conference"]},
+  {id:"venueMap",cat:"Core",name:"Venue map + search",desc:"Interactive floor plan with search — find stages, food, restrooms, booths fast",requires:[],fits:["tradeshow","conference","arena"]},
 
   {id:"profiles",cat:"Networking",name:"Attendee directory",desc:"Opt-in searchable profiles",requires:[],fits:["conference","tradeshow"]},
   {id:"connect",cat:"Networking",name:"Tap-to-connect cards",desc:"Personal QR codes, digital card swap",requires:["profiles"],fits:["conference","tradeshow"]},
@@ -701,15 +712,20 @@ const MODULES = [
   {id:"bigScreen",cat:"Operations",name:"Big screen display",desc:"AV-ready rotation URL for main screens",requires:[],fits:["conference","gala","arena","wedding"]},
   {id:"qrKit",cat:"Operations",name:"QR launch kit",desc:"Print-ready QR codes per surface",requires:[],fits:["conference","tradeshow","gala","arena","wedding"]},
   {id:"analytics",cat:"Operations",name:"Post-event analytics",desc:"Engagement report: opens, submissions, peaks",requires:[],fits:["conference","tradeshow"]},
+
+  {id:"geofence",cat:"Core",name:"Geo-fenced alerts",desc:"Location-aware messages — fire when attendees enter a zone (stage, gate, booth)",requires:[],fits:["conference","tradeshow","arena","wedding"]},
+  {id:"tickets",cat:"Revenue",name:"Tickets & VIP badges",desc:"Digital tickets + tiered VIP badges — scan to enter, unlock VIP areas & perks",requires:[],fits:["arena","conference","tradeshow"]},
+  {id:"auction",cat:"Revenue",name:"Live auction",desc:"Silent or live auction with real-time bidding + a big-screen leaderboard",requires:[],fits:["gala"]},
+  {id:"geoPhoto",cat:"Engagement",name:"Geo-fenced photo ops",desc:"Unlock branded filters & prompts at set spots — drive traffic to sponsor/scenic zones",requires:["photoWall"],fits:["arena","wedding"]},
 ];
 
 const TYPES = [
+  {id:"custom",    emoji:"🛠️",nm:"Build your own",ds:"Every module + custom builds"},
   {id:"conference",emoji:"🎤",nm:"Conference / Summit",ds:"Keynotes, sessions, expo floor"},
   {id:"tradeshow", emoji:"🤝",nm:"Trade show",ds:"Booths, leads, sponsor revenue"},
-  {id:"gala",      emoji:"🥂",nm:"Gala / fundraiser",ds:"Photo moments, giving, program"},
+  {id:"gala",      emoji:"🥂",nm:"Gala / fundraiser",ds:"Auction, giving, program"},
   {id:"wedding",   emoji:"💍",nm:"Wedding",ds:"Timeline, guest photo wall, dance floor"},
-  {id:"arena",     emoji:"🏟",nm:"Arena / entertainment",ds:"Fan cam, games, crowd effects"},
-  {id:"custom",    emoji:"🛠️",nm:"Build custom",ds:"Start from scratch, pick any module"},
+  {id:"arena",     emoji:"🏟",nm:"Arena / entertainment",ds:"Fan cam, tickets, crowd effects"},
 ];
 
 /* Curated popular add-ons per type (shown beyond the included package) */
@@ -800,9 +816,9 @@ function selectType(typeId){
   const summary = document.getElementById("pkgSummary");
   if(custom){
     const n = MODULES.filter(m=>!m.roadmap).length;
-    summary.innerHTML = `<b>Build custom</b> — every one of the <span class="cnt">${n}</span> modules is on the table. Mix and match to fit your event exactly, then <a href="#contact" style="color:var(--accent);font-weight:700;">tell us what you're building</a>.`;
+    summary.innerHTML = `<b>Build your own</b> — start from all <span class="cnt">${n}</span> modules, then go beyond the list: we design and build custom modules for your event, brand, and attendees. <a href="#contact" style="color:var(--accent);font-weight:700;">Tell us what you're building</a>.`;
   } else {
-    summary.innerHTML = `The <b>${t.nm}</b> package includes <span class="cnt">${included.size}</span> modules, with <span class="cnt">${common.size}</span> popular add-ons — every one reskinned to your brand.`;
+    summary.innerHTML = `The <b>${t.nm}</b> starting package includes <span class="cnt">${included.size}</span> modules, with <span class="cnt">${common.size}</span> popular add-ons — every one built for your brand and attendees, plus any custom module you need.`;
   }
 }
 
