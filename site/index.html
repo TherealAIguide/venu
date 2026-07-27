@@ -1003,15 +1003,19 @@ function finale(){
   const illu  = document.querySelector('.illusion .wrap');
   if(illu) illu.setAttribute('data-parallax','0.08');
   const px = [...document.querySelectorAll('[data-parallax]')];
+  const exitWraps = ['#what','#how','#experience','#packages','#demo']
+    .map(s=>document.querySelector(s+' > .wrap')).filter(Boolean);
   let ticking=false;
   function onScroll(){
     const y = window.scrollY || 0;
     const vh = innerHeight;
     const docH = document.documentElement.scrollHeight - vh;
     if(bar) bar.style.width = (docH>0 ? (y/docH*100) : 0) + '%';
-    // hero: wordmark drifts up, scales, and the block fades as you scroll past
-    if(word && y < vh*1.25){
-      word.style.transform = 'translateY('+(y*0.28)+'px) scale('+(1 - Math.min(y/vh,1)*0.06)+')';
+    // hero: wordmark drifts up, scales, and BLURS away as you scroll past (dissolve, not slide)
+    if(word && y < vh*1.3){
+      const p = Math.min(y/vh, 1);
+      word.style.transform = 'translateY('+(y*0.28)+'px) scale('+(1 - p*0.06)+')';
+      word.style.filter = p>0.02 ? 'blur('+(p*p*18)+'px)' : '';
       if(heroWrap) heroWrap.style.opacity = String(Math.max(0, 1 - (y/(vh*0.85))));
     }
     // layered parallax
@@ -1020,6 +1024,16 @@ function finale(){
       const mid = (r.top + r.height/2) - vh/2;
       const sp = parseFloat(el.getAttribute('data-parallax')) || 0.1;
       el.style.transform = 'translateY('+(mid * -sp)+'px)';
+    }
+    // section EXIT — as a section's end rises toward the top, it dissolves upward
+    const trigger = vh*0.55;
+    for(const w of exitWraps){
+      const r = w.getBoundingClientRect();
+      let e = 0;
+      if(r.top < 0 && r.bottom < trigger) e = Math.min(1, (trigger - r.bottom)/trigger);
+      w.style.opacity = String(1 - e*0.85);
+      w.style.filter = e>0.02 ? 'blur('+(e*9)+'px)' : '';
+      w.style.transform = 'translateY('+(e*-46)+'px)';
     }
     ticking=false;
   }
