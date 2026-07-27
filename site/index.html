@@ -252,9 +252,19 @@
   #fx{position:fixed;inset:0;pointer-events:none;z-index:90;}
   #wash{position:fixed;inset:0;pointer-events:none;z-index:80;opacity:0;transition:opacity .12s;mix-blend-mode:screen;}
 
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
-  .reveal.in{opacity:1;transform:none;}
-  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}.ls-grid .cell{transition:none;}}
+  /* scroll progress bar */
+  #scrollbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),#ff5e7a);z-index:60;pointer-events:none;box-shadow:0 0 12px rgba(228,3,46,.5);}
+  /* cinematic scroll reveals */
+  .reveal,[data-reveal]{opacity:0;transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1),filter .7s ease;will-change:opacity,transform;transition-delay:calc(var(--i,0) * 70ms);}
+  .reveal{transform:translateY(18px);}
+  [data-reveal="up"]{transform:translateY(38px);}
+  [data-reveal="left"]{transform:translateX(-46px);}
+  [data-reveal="right"]{transform:translateX(46px);}
+  [data-reveal="scale"]{transform:scale(.92);}
+  [data-reveal="blur"]{filter:blur(16px);transform:translateY(20px);}
+  .reveal.in,[data-reveal].in{opacity:1;transform:none;filter:none;}
+  [data-parallax]{will-change:transform;}
+  @media(prefers-reduced-motion:reduce){.reveal,[data-reveal]{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;}[data-parallax]{transform:none!important;}.ls-grid .cell{transition:none;}}
 
   /* ===== polish round: digital tagline, edgier cards, pkg view, poll, qr, smoke exit ===== */
   .hero .tagline .digital{color:var(--accent);animation:digitalGlow 3.4s ease-in-out infinite;}
@@ -334,6 +344,8 @@
   </div>
   <button id="introSkip">Skip intro</button>
 </div>
+
+<div id="scrollbar"></div>
 
 <header class="nav">
   <div class="nav-inner">
@@ -963,13 +975,58 @@ function finale(){
   secMap.forEach((_,el)=>io.observe(el));
 })();
 
-/* Scroll reveal */
-if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
-  const targets=document.querySelectorAll('.pillar,.step,.exp-card,.type-card,.mod,.demo-link');
-  targets.forEach(el=>el.classList.add('reveal'));
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.1});
-  targets.forEach(el=>io.observe(el));
-}
+/* ===== Cinematic scroll — reveals, parallax depth, progress bar ===== */
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+  // 1) assign varied reveal types + stagger, then observe
+  const assign=(sel,type)=>document.querySelectorAll(sel).forEach((el,i)=>{ el.setAttribute('data-reveal',type); el.style.setProperty('--i', i%6); });
+  document.querySelectorAll('section h2.sec').forEach(h=>{ h.setAttribute('data-reveal','left'); });
+  assign('#what .sec-lede, #how .sec-lede, #packages .sec-lede, #experience .sec-lede','up');
+  assign('.pillar','up');
+  assign('.step','up');
+  assign('.exp-card','scale');
+  assign('.type-card','up');
+  assign('.mod','up');
+  assign('.demo-link','up');
+  assign('#demo .demo-card','blur');
+  assign('.custom-callout','up');
+  assign('#contact .contact-copy','left');
+  assign('#contact form','up');
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });},{threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+
+  // 2) scroll-driven parallax + progress (rAF-throttled)
+  const bar   = document.getElementById('scrollbar');
+  const heroWrap = document.querySelector('.hero .wrap');
+  const word  = document.querySelector('.wordmark');
+  const illu  = document.querySelector('.illusion .wrap');
+  if(illu) illu.setAttribute('data-parallax','0.08');
+  const px = [...document.querySelectorAll('[data-parallax]')];
+  let ticking=false;
+  function onScroll(){
+    const y = window.scrollY || 0;
+    const vh = innerHeight;
+    const docH = document.documentElement.scrollHeight - vh;
+    if(bar) bar.style.width = (docH>0 ? (y/docH*100) : 0) + '%';
+    // hero: wordmark drifts up, scales, and the block fades as you scroll past
+    if(word && y < vh*1.25){
+      word.style.transform = 'translateY('+(y*0.28)+'px) scale('+(1 - Math.min(y/vh,1)*0.06)+')';
+      if(heroWrap) heroWrap.style.opacity = String(Math.max(0, 1 - (y/(vh*0.85))));
+    }
+    // layered parallax
+    for(const el of px){
+      const r = el.getBoundingClientRect();
+      const mid = (r.top + r.height/2) - vh/2;
+      const sp = parseFloat(el.getAttribute('data-parallax')) || 0.1;
+      el.style.transform = 'translateY('+(mid * -sp)+'px)';
+    }
+    ticking=false;
+  }
+  addEventListener('scroll', ()=>{ if(!ticking){ ticking=true; requestAnimationFrame(onScroll); } }, {passive:true});
+  addEventListener('resize', onScroll, {passive:true});
+  onScroll();
+})();
 </script>
 </body>
 </html>
