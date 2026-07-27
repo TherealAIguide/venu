@@ -13,7 +13,7 @@
   :root{
     --bg:#0A0A0B; --surface:#141417; --surface2:#1D1D21; --line:#2A2A2F;
     --ink:#F5F3EE; --muted:#8E8E97; --dim:#C9C9D2; --accent:#E4032E; --accent-soft:rgba(228,3,46,.12);
-    --gold:#F2B01E; --ok:#4CC26B;
+    --gold:#F2B01E; --ok:#4CC26B; --blue:#2E9BE4;
     --display:'Anton',sans-serif; --body:'Inter',-apple-system,system-ui,sans-serif; --radius:14px;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -41,7 +41,7 @@
   .login-foot a{color:var(--muted);font-size:12px;}
 
   /* ---------- App ---------- */
-  #app{display:none;max-width:760px;margin:0 auto;padding:20px 18px 150px;}
+  #app{display:none;max-width:760px;margin:0 auto;padding:20px 18px 160px;}
   header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0 18px;border-bottom:1px solid var(--line);margin-bottom:8px;}
   header.top .who{font-size:13px;color:var(--muted);}
   header.top .who b{color:var(--ink);}
@@ -52,31 +52,43 @@
   .sec-note{color:var(--muted);font-size:12.5px;margin-bottom:14px;}
 
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .grid3{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
   .tpl{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px;text-align:left;transition:border-color .15s,background .15s;}
   .tpl.active{border-color:var(--accent);background:linear-gradient(var(--accent-soft),transparent 70%),var(--surface);}
   .tpl .nm{font-weight:700;font-size:14px;}
   .tpl .ds{color:var(--muted);font-size:11.5px;margin-top:2px;}
+  .tpl.blank{border-style:dashed;}
 
-  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
   .field{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 13px;}
   .field.full{grid-column:1/-1;}
   .field label{display:block;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-  .field input{width:100%;background:none;border:none;color:var(--ink);font-size:15px;font-weight:600;outline:none;}
+  .field input,.field select{width:100%;background:none;border:none;color:var(--ink);font-size:15px;font-weight:600;outline:none;}
+  .field select option{background:var(--surface);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
 
   .cat-h{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:20px 0 8px;}
   .feat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;transition:border-color .15s;}
   .feat.on{border-color:rgba(228,3,46,.45);}
-  .feat.locked{opacity:.5;}
-  .feat .info{flex:1;}
-  .feat .info .nm{font-weight:600;font-size:14px;}
+  .feat.locked{opacity:.55;}
+  .feat .info{flex:1;min-width:0;}
+  .feat .info .nm{font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .feat .info .ds{color:var(--muted);font-size:12px;margin-top:1px;}
-  .feat .price{font-family:var(--display);font-size:16px;letter-spacing:.02em;color:var(--dim);min-width:58px;text-align:right;}
+  .feat .price{font-family:var(--display);font-size:16px;letter-spacing:.02em;color:var(--dim);min-width:56px;text-align:right;}
   .feat.on .price{color:var(--ink);}
-  .feat .badge{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(242,176,30,.4);border-radius:5px;padding:2px 6px;}
+  .st{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:5px;padding:2px 6px;border:1px solid;}
+  .st.live{color:var(--ok);border-color:rgba(76,194,107,.5);}
+  .st.beta{color:var(--gold);border-color:rgba(242,176,30,.5);}
+  .st.planned{color:var(--muted);border-color:var(--line);}
+  .st.roadmap{color:var(--blue);border-color:rgba(46,155,228,.5);}
   .toggle{flex:0 0 44px;height:26px;border-radius:99px;background:var(--surface2);border:1px solid var(--line);position:relative;transition:background .15s;}
   .toggle::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--muted);transition:transform .15s,background .15s;}
   .feat.on .toggle{background:var(--accent);border-color:var(--accent);}
   .feat.on .toggle::after{transform:translateX(18px);background:#fff;}
+
+  /* owner dev-status summary strip */
+  #devStrip{display:none;gap:8px;flex-wrap:wrap;margin:6px 0 2px;}
+  #devStrip .chip{font-size:11px;font-weight:700;border:1px solid var(--line);border-radius:99px;padding:6px 11px;color:var(--muted);}
+  #devStrip .chip b{color:var(--ink);}
 
   /* summary bar */
   #bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:760px;z-index:30;
@@ -85,10 +97,10 @@
   #bar .tot{flex:1;min-width:150px;}
   #bar .tot .lbl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;}
   #bar .tot .amt{font-family:var(--display);font-size:24px;letter-spacing:.02em;}
-  #bar .tot .amt small{font-family:var(--body);font-size:10.5px;color:var(--muted);font-weight:600;display:block;letter-spacing:0;}
-  #bar .comm{min-width:150px;padding:8px 14px;border:1px solid rgba(76,194,107,.4);border-radius:12px;background:rgba(76,194,107,.08);}
-  #bar .comm .lbl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ok);font-weight:700;}
-  #bar .comm .amt{font-family:var(--display);font-size:22px;color:var(--ok);letter-spacing:.02em;}
+  #bar .tot .amt small{font-family:var(--body);font-size:10px;color:var(--muted);font-weight:600;display:block;letter-spacing:0;}
+  #bar .side{min-width:140px;padding:8px 14px;border:1px solid rgba(76,194,107,.4);border-radius:12px;background:rgba(76,194,107,.08);}
+  #bar .side .lbl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ok);font-weight:700;}
+  #bar .side .amt{font-family:var(--display);font-size:22px;color:var(--ok);letter-spacing:.02em;}
   #bar button.copy{background:var(--accent);color:#fff;font-weight:700;border-radius:11px;padding:12px 18px;font-size:14px;}
   #bar button.copy.done{background:var(--ok);}
 
@@ -126,12 +138,18 @@
     </div>
   </header>
 
+  <div id="devStrip"></div>
+
   <div class="field-row">
     <div class="field full"><label>Client / event name</label><input type="text" id="clientName" placeholder="e.g. Aurora Rooftop Launch"></div>
   </div>
+  <div class="field-row">
+    <div class="field"><label>Event length (days)</label><input type="number" id="days" min="1" max="30" value="1" oninput="renderTotals()"></div>
+    <div class="field"><label>Estimated attendees</label><select id="attendees" onchange="renderTotals()"></select></div>
+  </div>
 
   <h2 class="sec">Event type</h2>
-  <p class="sec-note">Pick a template to pre-select a starting package. Everything stays editable below.</p>
+  <p class="sec-note">Start from a template or build from scratch — then toggle <b>any</b> module below to add or remove it. Fully customizable.</p>
   <div class="grid2" id="templates"></div>
 
   <div id="featureList"></div>
@@ -144,102 +162,104 @@
     <div class="lbl">Package total</div>
     <div class="amt" id="totAmt">$0 <small id="totNote"></small></div>
   </div>
-  <div class="comm" id="commBox">
-    <div class="lbl" id="commLbl">Your commission</div>
-    <div class="amt" id="commAmt">$0</div>
+  <div class="side" id="sideBox">
+    <div class="lbl" id="sideLbl">Your commission</div>
+    <div class="amt" id="sideAmt">$0</div>
   </div>
   <button class="copy" id="copyBtn" onclick="copyProposal()">Copy proposal</button>
 </div>
 
 <script>
 /* =========================================================================
-   ACCESS — client-side gate (MVP). NOTE: passwords are visible in page
-   source; this is obscurity, not real security. Move to Firebase Auth
-   before relying on this for anything sensitive.
+   ACCESS — client-side gate (MVP). Passwords are visible in page source;
+   this is obscurity, not real security. Move to Firebase Auth before
+   relying on it for anything sensitive. Default new-affiliate rate = 25%.
    ========================================================================= */
+const DEFAULT_AFFILIATE_RATE = 0.25;
 const USERS = {
   michael:  { pw:"michael",  role:"owner",     name:"Michael",  rate:0 },
-  patrick:  { pw:"patric",   role:"affiliate", name:"Patrick",  rate:0.10 },
-  aaron:    { pw:"aaron",    role:"affiliate", name:"Aaron",    rate:0.10 },
-  kristina: { pw:"kristina", role:"affiliate", name:"Kristina", rate:0.10 },
-  maureen:  { pw:"maureen",  role:"affiliate", name:"Maureen",  rate:0.10 },
+  patrick:  { pw:"patric",   role:"affiliate", name:"Patrick",  rate:0.30 },
+  aaron:    { pw:"aaron",    role:"affiliate", name:"Aaron",    rate:0.30 },
+  kristina: { pw:"kristina", role:"affiliate", name:"Kristina", rate:0.25 },
+  maureen:  { pw:"maureen",  role:"affiliate", name:"Maureen",  rate:0.25 },
 };
-const OWNER_AFFILIATE_RATE = 0.10; // rate the owner sees as reference
-
 let currentUser = null;
 
 /* =========================================================================
    PRICING REGISTRY — placeholder prices. Set real numbers here.
-   price = one-time per event. requires[] = dependency ids.
-   fits[] = pre-selected for these event templates.
+   status: live | beta | planned | roadmap  (shown on Michael's owner view)
    ========================================================================= */
-const BASE_PLATFORM = 500; // per-event base: hosting, branding, setup
+const BASE_PLATFORM = 500;           // per-event base: hosting, branding, setup
+const DAY_FEE = 200;                 // per extra day beyond day 1
+const ATTENDEE_TIERS = [
+  { label:"Up to 250",        fee:0 },
+  { label:"250 – 1,000",      fee:500 },
+  { label:"1,000 – 5,000",    fee:1500 },
+  { label:"5,000 – 20,000",   fee:4000 },
+  { label:"20,000+",          fee:8000 },
+];
 const REGISTRY = [
-  { id:"schedule",  cat:"Core", name:"Schedule & agenda", ds:"Multi-day agenda + live 'now'", price:250, requires:[], fits:["conference","tradeshow","gala","arena","wedding"] },
-  { id:"speakers",  cat:"Core", name:"Speaker profiles", ds:"Bios, photos, session links", price:150, requires:["schedule"], fits:["conference","tradeshow"] },
-  { id:"announce",  cat:"Core", name:"Announcements", ds:"Banner updates to every phone", price:200, requires:[], fits:["conference","tradeshow","gala","arena","wedding"] },
-  { id:"venueMap",  cat:"Core", name:"Venue map + search", ds:"Interactive floor plan w/ search", price:300, requires:[], fits:["tradeshow","conference","arena"] },
-  { id:"geofence",  cat:"Core", name:"Geo-fenced alerts", ds:"Location-triggered messages", price:350, requires:[], fits:["conference","tradeshow","arena","wedding"] },
+  { id:"schedule",  cat:"Core", name:"Schedule & agenda", ds:"Multi-day agenda + live 'now'", price:250, status:"live", requires:[], fits:["conference","tradeshow","gala","arena","wedding"] },
+  { id:"speakers",  cat:"Core", name:"Speaker profiles", ds:"Bios, photos, session links", price:150, status:"live", requires:["schedule"], fits:["conference","tradeshow"] },
+  { id:"announce",  cat:"Core", name:"Announcements", ds:"Banner updates to every phone", price:200, status:"planned", requires:[], fits:["conference","tradeshow","gala","arena","wedding"] },
+  { id:"venueMap",  cat:"Core", name:"Venue map + search", ds:"Interactive floor plan w/ search", price:300, status:"planned", requires:[], fits:["tradeshow","conference","arena"] },
+  { id:"geofence",  cat:"Core", name:"Geo-fenced alerts", ds:"Location-triggered messages", price:350, status:"planned", requires:[], fits:["conference","tradeshow","arena","wedding"] },
 
-  { id:"profiles",  cat:"Networking", name:"Attendee directory", ds:"Opt-in searchable profiles", price:400, requires:[], fits:["conference","tradeshow"] },
-  { id:"connect",   cat:"Networking", name:"Tap-to-connect cards", ds:"QR digital card swap", price:350, requires:["profiles"], fits:["conference","tradeshow"] },
-  { id:"meetups",   cat:"Networking", name:"Meetups & groups", ds:"RSVP boards", price:250, requires:["profiles"], fits:["conference"] },
+  { id:"profiles",  cat:"Networking", name:"Attendee directory", ds:"Opt-in searchable profiles", price:400, status:"planned", requires:[], fits:["conference","tradeshow"] },
+  { id:"connect",   cat:"Networking", name:"Tap-to-connect cards", ds:"QR digital card swap", price:350, status:"planned", requires:["profiles"], fits:["conference","tradeshow"] },
+  { id:"meetups",   cat:"Networking", name:"Meetups & groups", ds:"RSVP boards", price:250, status:"planned", requires:["profiles"], fits:["conference"] },
 
-  { id:"photoWall", cat:"Engagement", name:"Photo wall / fan cam", ds:"Attendee photos to big screen", price:600, requires:["moderation"], fits:["conference","gala","arena","wedding"] },
-  { id:"geoPhoto",  cat:"Engagement", name:"Geo-fenced photo ops", ds:"Branded filters at set spots", price:400, requires:["photoWall"], fits:["arena","wedding"] },
-  { id:"qa",        cat:"Engagement", name:"Live Q&A", ds:"Moderated audience questions", price:350, requires:["moderation"], fits:["conference"] },
-  { id:"polls",     cat:"Engagement", name:"Live polls", ds:"Real-time big-screen results", price:300, requires:[], fits:["conference","arena"] },
-  { id:"trivia",    cat:"Engagement", name:"Trivia / games", ds:"Timed rounds + leaderboard", price:450, requires:[], fits:["arena","gala"] },
-  { id:"scavenger", cat:"Engagement", name:"Scavenger hunt", ds:"QR checkpoints + points", price:550, requires:[], fits:["tradeshow","conference","arena"] },
-  { id:"lightShow", cat:"Engagement", name:"Screen light show", ds:"Synced phone-screen effects", price:500, requires:[], fits:["arena"] },
-  { id:"lyrics",    cat:"Engagement", name:"Singalong lyrics", ds:"Cued lyrics + artist pack", price:450, requires:[], fits:["arena"] },
-  { id:"raffle",    cat:"Engagement", name:"Raffle / prize drawing", ds:"App entries + live spinner", price:400, requires:[], fits:["gala","tradeshow","arena","conference"] },
-  { id:"mic",       cat:"Engagement", name:"Audience mic (roadmap)", ds:"Phone-as-mic — hardware", price:0, requires:["moderation"], fits:[], roadmap:true },
+  { id:"photoWall", cat:"Engagement", name:"Photo wall / fan cam", ds:"Attendee photos to big screen", price:600, status:"live", requires:["moderation"], fits:["conference","gala","arena","wedding"] },
+  { id:"geoPhoto",  cat:"Engagement", name:"Geo-fenced photo ops", ds:"Branded filters at set spots", price:400, status:"planned", requires:["photoWall"], fits:["arena","wedding"] },
+  { id:"qa",        cat:"Engagement", name:"Live Q&A", ds:"Moderated audience questions", price:350, status:"planned", requires:["moderation"], fits:["conference"] },
+  { id:"polls",     cat:"Engagement", name:"Live polls", ds:"Real-time big-screen results", price:300, status:"planned", requires:[], fits:["conference","arena"] },
+  { id:"trivia",    cat:"Engagement", name:"Trivia / games", ds:"Timed rounds + leaderboard", price:450, status:"planned", requires:[], fits:["arena","gala"] },
+  { id:"scavenger", cat:"Engagement", name:"Scavenger hunt", ds:"QR checkpoints + points", price:550, status:"planned", requires:[], fits:["tradeshow","conference","arena"] },
+  { id:"lightShow", cat:"Engagement", name:"Screen light show", ds:"Synced phone-screen effects", price:500, status:"planned", requires:[], fits:["arena"] },
+  { id:"lyrics",    cat:"Engagement", name:"Singalong lyrics", ds:"Cued lyrics + artist pack", price:450, status:"planned", requires:[], fits:["arena"] },
+  { id:"raffle",    cat:"Engagement", name:"Raffle / prize drawing", ds:"App entries + live spinner", price:400, status:"planned", requires:[], fits:["gala","tradeshow","arena","conference"] },
+  { id:"mic",       cat:"Engagement", name:"Audience mic", ds:"Phone-as-mic — needs venue AV", price:0, status:"roadmap", requires:["moderation"], fits:[], roadmap:true },
 
-  { id:"sponsors",  cat:"Revenue", name:"Sponsor spotlight", ds:"Tiered placements + booths", price:400, requires:[], fits:["conference","tradeshow","arena"] },
-  { id:"leadCap",   cat:"Revenue", name:"Sponsor lead capture", ds:"Booth opt-in + CSV export", price:500, requires:["sponsors"], fits:["tradeshow"] },
-  { id:"offers",    cat:"Revenue", name:"In-app offers", ds:"Promo codes + flash deals", price:250, requires:["sponsors"], fits:["tradeshow","arena"] },
-  { id:"vendors",   cat:"Revenue", name:"Vendor hub", ds:"Self-serve vendor pages", price:600, requires:["moderation"], fits:["tradeshow","arena"] },
-  { id:"tickets",   cat:"Revenue", name:"Tickets & VIP badges", ds:"Digital tickets + VIP tiers", price:450, requires:[], fits:["arena","conference","tradeshow"] },
-  { id:"merch",     cat:"Revenue", name:"Merch store", ds:"In-seat browse + pickup", price:500, requires:[], fits:["arena","conference"] },
-  { id:"food",      cat:"Revenue", name:"Food & trucks", ds:"Vendor map + menus", price:350, requires:[], fits:["arena","tradeshow","gala"] },
-  { id:"donate",    cat:"Revenue", name:"Giving / pledge", ds:"Donation CTA + goal tracker", price:350, requires:[], fits:["gala"] },
-  { id:"auction",   cat:"Revenue", name:"Live auction", ds:"Real-time bidding + leaderboard", price:500, requires:[], fits:["gala"] },
+  { id:"sponsors",  cat:"Revenue", name:"Sponsor spotlight", ds:"Tiered placements + booths", price:400, status:"live", requires:[], fits:["conference","tradeshow","arena"] },
+  { id:"leadCap",   cat:"Revenue", name:"Sponsor lead capture", ds:"Booth opt-in + CSV export", price:500, status:"planned", requires:["sponsors"], fits:["tradeshow"] },
+  { id:"offers",    cat:"Revenue", name:"In-app offers", ds:"Promo codes + flash deals", price:250, status:"planned", requires:["sponsors"], fits:["tradeshow","arena"] },
+  { id:"vendors",   cat:"Revenue", name:"Vendor hub", ds:"Self-serve vendor pages", price:600, status:"planned", requires:["moderation"], fits:["tradeshow","arena"] },
+  { id:"tickets",   cat:"Revenue", name:"Tickets & VIP badges", ds:"Digital tickets + VIP tiers", price:450, status:"planned", requires:[], fits:["arena","conference","tradeshow"] },
+  { id:"merch",     cat:"Revenue", name:"Merch store", ds:"In-seat browse + pickup", price:500, status:"planned", requires:[], fits:["arena","conference"] },
+  { id:"food",      cat:"Revenue", name:"Food & trucks", ds:"Vendor map + menus", price:350, status:"planned", requires:[], fits:["arena","tradeshow","gala"] },
+  { id:"donate",    cat:"Revenue", name:"Giving / pledge", ds:"Donation CTA + goal tracker", price:350, status:"planned", requires:[], fits:["gala"] },
+  { id:"auction",   cat:"Revenue", name:"Live auction", ds:"Real-time bidding + leaderboard", price:500, status:"planned", requires:[], fits:["gala"] },
 
-  { id:"splash",    cat:"Branding", name:"Custom splash screen", ds:"Designed launch moment", price:250, requires:[], fits:[] },
-  { id:"domain",    cat:"Branding", name:"Custom domain", ds:"app.theirevent.com", price:150, requires:[], fits:[] },
+  { id:"splash",    cat:"Branding", name:"Custom splash screen", ds:"Designed launch moment", price:250, status:"planned", requires:[], fits:[] },
+  { id:"domain",    cat:"Branding", name:"Custom domain", ds:"app.theirevent.com", price:150, status:"live", requires:[], fits:[] },
 
-  { id:"moderation",cat:"Operations", name:"Moderation dashboard", ds:"Approve/reject queue", price:300, requires:[], fits:["conference","gala","arena","wedding"] },
-  { id:"bigScreen", cat:"Operations", name:"Big screen display", ds:"AV-ready rotation URL", price:250, requires:[], fits:["conference","gala","arena","wedding"] },
-  { id:"qrKit",     cat:"Operations", name:"QR launch kit", ds:"Print-ready QR codes", price:100, requires:[], fits:["conference","tradeshow","gala","arena","wedding"] },
-  { id:"analytics", cat:"Operations", name:"Post-event analytics", ds:"Engagement report", price:300, requires:[], fits:["conference","tradeshow"] },
+  { id:"moderation",cat:"Operations", name:"Moderation dashboard", ds:"Approve/reject queue", price:300, status:"live", requires:[], fits:["conference","gala","arena","wedding"] },
+  { id:"bigScreen", cat:"Operations", name:"Big screen display", ds:"AV-ready rotation URL", price:250, status:"live", requires:[], fits:["conference","gala","arena","wedding"] },
+  { id:"qrKit",     cat:"Operations", name:"QR launch kit", ds:"Print-ready QR codes", price:100, status:"live", requires:[], fits:["conference","tradeshow","gala","arena","wedding"] },
+  { id:"analytics", cat:"Operations", name:"Post-event analytics", ds:"Engagement report", price:300, status:"planned", requires:[], fits:["conference","tradeshow"] },
 ];
 const TEMPLATES = [
+  { id:"blank",      nm:"Build from scratch", ds:"Start blank, add anything", blank:true },
   { id:"conference", nm:"Conference / Summit", ds:"Keynotes, sessions, expo" },
   { id:"tradeshow",  nm:"Trade show", ds:"Booths, leads, sponsors" },
   { id:"gala",       nm:"Gala / fundraiser", ds:"Auction, giving, program" },
   { id:"wedding",    nm:"Wedding", ds:"Timeline, photo wall, dance floor" },
   { id:"arena",      nm:"Arena / entertainment", ds:"Fan cam, tickets, effects" },
 ];
+const ST_LABEL = { live:"Live", beta:"Beta", planned:"Planned", roadmap:"Roadmap" };
 
 let activeTemplate = null;
 let selected = new Set();
 
 /* ---------- login ---------- */
-function tryRestore(){
-  try{ const u = sessionStorage.getItem("venuBuilderUser"); if(u && USERS[u]){ enter(u); } }catch(e){}
-}
+function tryRestore(){ try{ const u = sessionStorage.getItem("venuBuilderUser"); if(u && USERS[u]) enter(u); }catch(e){} }
 document.getElementById("loginForm").addEventListener("submit", function(e){
   e.preventDefault();
   const u = document.getElementById("u").value.trim().toLowerCase();
   const p = document.getElementById("p").value;
   const rec = USERS[u];
-  if(rec && p === rec.pw){
-    try{ sessionStorage.setItem("venuBuilderUser", u); }catch(e){}
-    enter(u);
-  } else {
-    document.getElementById("err").textContent = "Incorrect username or password.";
-  }
+  if(rec && p === rec.pw){ try{ sessionStorage.setItem("venuBuilderUser", u); }catch(e){} enter(u); }
+  else document.getElementById("err").textContent = "Incorrect username or password.";
 });
 function enter(u){
   currentUser = { id:u, ...USERS[u] };
@@ -248,16 +268,27 @@ function enter(u){
   document.getElementById("bar").style.display = "flex";
   document.getElementById("whoName").textContent = currentUser.name;
   document.getElementById("whoRole").textContent = currentUser.role;
-  // commission box only for affiliates (owner sees reference payout)
-  document.getElementById("commLbl").textContent = currentUser.role === "owner" ? "Affiliate payout (ref)" : "Your commission";
-  const rate = currentUser.role === "owner" ? OWNER_AFFILIATE_RATE : currentUser.rate;
-  document.getElementById("disclaimer").innerHTML =
-    "Prices are placeholders — set real numbers in the registry. " +
-    (currentUser.role === "owner"
-      ? "Affiliate payout shown at "+(OWNER_AFFILIATE_RATE*100)+"% for reference."
-      : "Your commission is "+(rate*100)+"% of the package total, confirmed on signed contracts.");
-  renderTemplates();
-  renderFeatures();
+
+  // populate attendee tiers
+  document.getElementById("attendees").innerHTML = ATTENDEE_TIERS.map((t,i)=>`<option value="${i}">${t.label}</option>`).join("");
+
+  const owner = currentUser.role === "owner";
+  const sideBox = document.getElementById("sideBox");
+  if(owner){
+    // owner sees module dev-status, not commission
+    sideBox.style.borderColor = "var(--line)";
+    sideBox.style.background = "var(--surface2)";
+    document.getElementById("sideLbl").textContent = "Modules live";
+    document.getElementById("sideLbl").style.color = "var(--muted)";
+    document.getElementById("sideAmt").style.color = "var(--ink)";
+    document.getElementById("devStrip").style.display = "flex";
+    document.getElementById("disclaimer").innerHTML = "Owner view · module development status shown per row. Prices are placeholders — set real numbers in the registry.";
+  } else {
+    document.getElementById("sideLbl").textContent = "Your commission";
+    document.getElementById("devStrip").style.display = "none";
+    document.getElementById("disclaimer").innerHTML = "Your commission is <b>"+(currentUser.rate*100)+"%</b> of the package total, confirmed on signed contracts. Prices are placeholders pending final rate card.";
+  }
+  renderTemplates(); renderFeatures();
 }
 function logout(){
   try{ sessionStorage.removeItem("venuBuilderUser"); }catch(e){}
@@ -270,17 +301,16 @@ function logout(){
 
 /* ---------- templates ---------- */
 function renderTemplates(){
-  const w = document.getElementById("templates");
-  w.innerHTML = TEMPLATES.map(t=>`<button class="tpl" id="tpl-${t.id}" onclick="applyTemplate('${t.id}')">
-    <div class="nm">${t.nm}</div><div class="ds">${t.ds}</div></button>`).join("");
+  document.getElementById("templates").innerHTML = TEMPLATES.map(t=>
+    `<button class="tpl ${t.blank?'blank':''}" id="tpl-${t.id}" onclick="applyTemplate('${t.id}')">
+      <div class="nm">${t.nm}</div><div class="ds">${t.ds}</div></button>`).join("");
 }
 function applyTemplate(id){
   activeTemplate = id;
   document.querySelectorAll(".tpl").forEach(x=>x.classList.remove("active"));
   document.getElementById("tpl-"+id).classList.add("active");
-  selected = new Set(REGISTRY.filter(f=>f.fits.includes(id)).map(f=>f.id));
-  resolveDeps();
-  renderFeatures();
+  selected = (id==="blank") ? new Set() : new Set(REGISTRY.filter(f=>f.fits.includes(id)).map(f=>f.id));
+  resolveDeps(); renderFeatures();
 }
 
 /* ---------- dependency resolution ---------- */
@@ -288,14 +318,14 @@ function resolveDeps(){
   let changed = true;
   while(changed){ changed = false;
     for(const f of REGISTRY){ if(selected.has(f.id)){
-      for(const d of f.requires){ if(!selected.has(d)){ selected.add(d); changed = true; } }
-    }}
+      for(const d of f.requires){ if(!selected.has(d)){ selected.add(d); changed = true; } } } }
   }
 }
 function dependentsOf(id){ return REGISTRY.filter(f=>selected.has(f.id) && f.requires.includes(id)).map(f=>f.name); }
 
 /* ---------- features ---------- */
 function renderFeatures(){
+  const owner = currentUser && currentUser.role === "owner";
   const w = document.getElementById("featureList");
   const cats = [...new Set(REGISTRY.map(f=>f.cat))];
   w.innerHTML = cats.map(cat=>`
@@ -303,9 +333,10 @@ function renderFeatures(){
     ${REGISTRY.filter(f=>f.cat===cat).map(f=>{
       const on = selected.has(f.id), rm = !!f.roadmap;
       const deps = f.requires.map(r=>REGISTRY.find(x=>x.id===r).name).join(", ");
+      const badge = owner ? `<span class="st ${f.status}">${ST_LABEL[f.status]}</span>` : "";
       return `<div class="feat ${on?"on":""} ${rm?"locked":""}" ${rm?"":`onclick="toggleFeat('${f.id}')"`}>
-        <div class="info"><div class="nm">${f.name}</div><div class="ds">${f.ds}${deps?" · needs "+deps:""}</div></div>
-        ${rm?`<span class="badge">Roadmap</span>`:`<div class="price">$${f.price}</div><div class="toggle"></div>`}
+        <div class="info"><div class="nm">${f.name}${badge}</div><div class="ds">${f.ds}${deps?" · needs "+deps:""}</div></div>
+        ${rm?`<div class="price" style="min-width:56px;text-align:right;color:var(--blue);font-family:var(--body);font-size:11px;font-weight:700;">SOON</div>`:`<div class="price">$${f.price}</div><div class="toggle"></div>`}
       </div>`;
     }).join("")}`).join("");
   renderTotals();
@@ -319,18 +350,42 @@ function toggleFeat(id){
   renderFeatures();
 }
 
-/* ---------- totals + commission ---------- */
+/* ---------- totals + commission / dev status ---------- */
 function totals(){
-  let oneTime = BASE_PLATFORM;
-  for(const f of REGISTRY) if(selected.has(f.id)) oneTime += f.price;
-  const rate = currentUser ? (currentUser.role==="owner" ? OWNER_AFFILIATE_RATE : currentUser.rate) : 0;
-  return { oneTime, commission: Math.round(oneTime * rate), rate };
+  const days = Math.max(1, parseInt(document.getElementById("days").value)||1);
+  const tierIdx = parseInt(document.getElementById("attendees").value)||0;
+  const audienceFee = ATTENDEE_TIERS[tierIdx].fee;
+  const durationFee = (days-1) * DAY_FEE;
+  let modules = 0;
+  for(const f of REGISTRY) if(selected.has(f.id)) modules += f.price;
+  const oneTime = BASE_PLATFORM + modules + audienceFee + durationFee;
+  const rate = currentUser ? currentUser.rate : 0;
+  return { oneTime, modules, audienceFee, durationFee, days, tierIdx, commission: Math.round(oneTime*rate), rate };
 }
 function renderTotals(){
+  if(!currentUser) return;
   const t = totals();
   document.getElementById("totAmt").firstChild.textContent = "$"+t.oneTime.toLocaleString()+" ";
-  document.getElementById("totNote").textContent = "per event · incl. $"+BASE_PLATFORM+" base";
-  document.getElementById("commAmt").textContent = "$"+t.commission.toLocaleString();
+  document.getElementById("totNote").textContent = "per event · base $"+BASE_PLATFORM
+    +(t.audienceFee?" · audience $"+t.audienceFee.toLocaleString():"")
+    +(t.durationFee?" · "+t.days+" days":"");
+  if(currentUser.role === "owner"){
+    const nonRoad = REGISTRY.filter(f=>!f.roadmap);
+    const live = nonRoad.filter(f=>f.status==="live").length;
+    document.getElementById("sideAmt").textContent = live + " / " + nonRoad.length;
+    renderDevStrip();
+  } else {
+    document.getElementById("sideAmt").textContent = "$"+t.commission.toLocaleString();
+  }
+}
+function renderDevStrip(){
+  const counts = { live:0, beta:0, planned:0, roadmap:0 };
+  REGISTRY.forEach(f=>counts[f.status]++);
+  document.getElementById("devStrip").innerHTML =
+    `<span class="chip"><b style="color:var(--ok)">${counts.live}</b> Live</span>`+
+    (counts.beta?`<span class="chip"><b style="color:var(--gold)">${counts.beta}</b> Beta</span>`:"")+
+    `<span class="chip"><b>${counts.planned}</b> Planned</span>`+
+    `<span class="chip"><b style="color:var(--blue)">${counts.roadmap}</b> Roadmap</span>`;
 }
 
 /* ---------- proposal ---------- */
@@ -340,20 +395,20 @@ function buildProposal(){
   const lines = REGISTRY.filter(f=>selected.has(f.id)).map(f=>`  • ${f.name} — $${f.price}`).join("\n");
   let out = `VENU — EVENT APP PROPOSAL
 Client / event: ${name}
-Template: ${activeTemplate ? (TEMPLATES.find(x=>x.id===activeTemplate)||{}).nm||"—" : "Custom"}
+Template: ${activeTemplate && activeTemplate!=="blank" ? (TEMPLATES.find(x=>x.id===activeTemplate)||{}).nm||"—" : "Custom"}
+Event length: ${t.days} day(s)   ·   Attendees: ${ATTENDEE_TIERS[t.tierIdx].label}
 
-Included:
+Included modules:
 ${lines || "  (none selected)"}
 
-Platform base (branding, hosting, setup): $${BASE_PLATFORM}
+Platform base: $${BASE_PLATFORM}${t.audienceFee?`\nAudience scale (${ATTENDEE_TIERS[t.tierIdx].label}): $${t.audienceFee.toLocaleString()}`:""}${t.durationFee?`\nMulti-day (${t.days} days): $${t.durationFee.toLocaleString()}`:""}
 ------------------------------------------
 Total per event: $${t.oneTime.toLocaleString()}
 
 Delivery: branded web app (add to home screen, no download),
 moderator dashboard, and AV-ready big-screen display.`;
-  if(currentUser && currentUser.role === "affiliate"){
+  if(currentUser && currentUser.role === "affiliate")
     out += `\n\n— Partner: ${currentUser.name} · Commission (${t.rate*100}%): $${t.commission.toLocaleString()}`;
-  }
   return out;
 }
 async function copyProposal(){
