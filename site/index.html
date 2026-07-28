@@ -83,7 +83,7 @@
     -webkit-background-clip:text;background-clip:text;color:transparent;
     text-shadow:0 0 80px rgba(228,3,46,.18);
   }
-  .hero .tagline{font-family:var(--display);font-size:clamp(24px,5vw,50px);text-transform:uppercase;line-height:1.02;letter-spacing:.01em;margin:4px auto 18px;max-width:18ch;}
+  .hero .tagline{font-family:var(--display);font-size:clamp(24px,5vw,50px);text-transform:uppercase;line-height:1.02;letter-spacing:.01em;margin:4px auto 18px;max-width:26ch;}
   .hero .tagline .hl{color:var(--accent);}
   .hero p.lede{color:var(--dim);font-size:clamp(16px,2.2vw,20px);max-width:56ch;margin:0 auto;line-height:1.55;}
   .hero .venire{color:var(--muted);font-size:13.5px;margin:16px auto 0;max-width:56ch;font-style:italic;}
@@ -97,20 +97,28 @@
   .hero-badges{display:flex;flex-wrap:wrap;gap:20px;margin-top:36px;color:var(--muted);font-size:13.5px;font-weight:600;justify-content:center;}
   .hero-badges span{display:flex;align-items:center;gap:8px;}
   .hero-badges .tick{color:var(--accent);font-weight:800;}
-  /* live-room proof widget */
-  .liveroom{max-width:440px;margin:34px auto 0;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 16px 15px;position:relative;overflow:hidden;}
-  .lr-head{font-size:13px;color:var(--dim);display:flex;align-items:center;justify-content:center;gap:8px;}
-  .lr-head strong{color:var(--ink);}
-  .lr-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:lrPulse 1.6s infinite;}
-  @keyframes lrPulse{0%{box-shadow:0 0 0 0 rgba(228,3,46,.5);}70%{box-shadow:0 0 0 9px rgba(228,3,46,0);}100%{box-shadow:0 0 0 0 rgba(228,3,46,0);}}
-  .lr-stage{position:relative;height:66px;pointer-events:none;}
-  .lr-float{position:absolute;bottom:0;will-change:transform,opacity;animation:lrRise 1.5s ease-out forwards;}
-  @keyframes lrRise{0%{transform:translateY(0) scale(.6);opacity:0;}15%{opacity:1;}100%{transform:translateY(-72px) scale(1.25);opacity:0;}}
-  .lr-bar{display:flex;gap:9px;justify-content:center;margin-top:2px;}
+  /* live-room camera join */
+  #liveroom-band .sec-lede{margin-bottom:2px;}
+  .lr-priv{display:block;margin-top:9px;font-size:13px;color:var(--muted);}
+  .liveroom{max-width:560px;margin:28px auto 0;}
+  .lr-screen{position:relative;aspect-ratio:16/10;background:#050506;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  #lrVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;transform:scaleX(-1);}
+  .lr-placeholder{position:relative;z-index:1;color:var(--muted);font-size:14px;padding:0 22px;text-align:center;}
+  .lr-screenbadge{position:absolute;top:12px;left:12px;z-index:3;display:none;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(228,3,46,.92);padding:5px 11px;border-radius:99px;}
+  .liveroom.joined .lr-screenbadge{display:flex;}
+  .lr-stage{position:absolute;inset:0;z-index:2;pointer-events:none;}
+  .lr-float{position:absolute;bottom:8px;will-change:transform,opacity;animation:lrRise 1.6s ease-out forwards;}
+  @keyframes lrRise{0%{transform:translateY(0) scale(.6);opacity:0;}15%{opacity:1;}100%{transform:translateY(-160px) scale(1.3);opacity:0;}}
+  .lr-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:lrPulse 1.6s infinite;}
+  @keyframes lrPulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.5);}70%{box-shadow:0 0 0 8px rgba(255,255,255,0);}100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}}
+  .lr-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:13px;margin-top:16px;}
+  #lrJoin{cursor:pointer;}
+  #lrJoin.live{background:#111;border:1px solid var(--accent);color:var(--accent);}
+  .lr-bar{display:flex;gap:9px;justify-content:center;}
   .lr-react{font-size:22px;width:47px;height:47px;border-radius:50%;background:var(--surface2);border:1px solid var(--line);cursor:pointer;transition:transform .1s,border-color .15s;line-height:1;padding:0;}
   .lr-react:hover{border-color:var(--accent);}
   .lr-react:active{transform:scale(.85);}
-  .lr-count{text-align:center;font-size:12px;color:var(--muted);margin-top:13px;}
+  .lr-count{text-align:center;font-size:12.5px;color:var(--muted);margin-top:14px;}
   .lr-count #lrNum{color:var(--accent);font-weight:800;}
   .lr-note{opacity:.85;}
 
@@ -408,25 +416,11 @@
 <a id="top"></a>
 <section class="hero">
   <div class="wrap">
-    <div class="kicker">The audience activation layer</div>
+    <div class="kicker">Digital experiences for events</div>
     <div class="wordmark">Venu</div>
-    <h1 class="tagline">Don't give them an app. Put them <span class="digital">in the room.</span></h1>
+    <h1 class="tagline">Don't give them an app.<br>Put them <span class="digital">in the room.</span></h1>
     <p class="lede">Venu turns every phone in the room into part of the show. Attendees scan a QR, add it to their home screen, and become participants — reacting, voting, lighting up the venue, landing on the big screen. No app store. No download. No watching from the sidelines.</p>
     <p class="venire"><em>venire</em> — Latin, "to come." The root of both <em>venue</em> and <em>event</em>. Everything starts with people showing up — Venu is what happens once they're in the room.</p>
-
-    <!-- LIVE ROOM PROOF -->
-    <div class="liveroom" id="liveRoom">
-      <div class="lr-head"><span class="lr-dot"></span> This page is a live room — <strong>tap to join it</strong></div>
-      <div class="lr-stage" id="lrStage"></div>
-      <div class="lr-bar">
-        <button class="lr-react" type="button" data-e="🔥">🔥</button>
-        <button class="lr-react" type="button" data-e="❤️">❤️</button>
-        <button class="lr-react" type="button" data-e="👏">👏</button>
-        <button class="lr-react" type="button" data-e="🙌">🙌</button>
-        <button class="lr-react" type="button" data-e="⚡">⚡</button>
-      </div>
-      <div class="lr-count"><span id="lrNum">0</span> reactions from you · <span class="lr-note">no download — you just did that</span></div>
-    </div>
 
     <div class="cta-row">
       <a class="btn primary" href="#demo">▶&nbsp; See live experiences</a>
@@ -441,11 +435,38 @@
   </div>
 </section>
 
+<section id="liveroom-band">
+  <div class="wrap">
+    <div class="kicker">Prove it right now</div>
+    <h2 class="sec">This page is a <span class="hl">live room.</span></h2>
+    <p class="sec-lede">No app store, no download — exactly what your attendees get from a QR scan. Tap to join, allow your camera, and you're on the wall. Add a reaction and watch it fly.<span class="lr-priv">Local preview only — nothing is uploaded or stored.</span></p>
+    <div class="liveroom" id="liveRoom">
+      <div class="lr-screen" id="lrScreen">
+        <div class="lr-screenbadge"><span class="lr-dot"></span> On the wall</div>
+        <video id="lrVideo" playsinline autoplay muted></video>
+        <div class="lr-placeholder" id="lrPlaceholder">Your camera feed appears here</div>
+        <div class="lr-stage" id="lrStage"></div>
+      </div>
+      <div class="lr-controls">
+        <button class="btn primary" id="lrJoin" type="button">📷&nbsp; Join the live room</button>
+        <div class="lr-bar">
+          <button class="lr-react" type="button" data-e="🔥">🔥</button>
+          <button class="lr-react" type="button" data-e="❤️">❤️</button>
+          <button class="lr-react" type="button" data-e="👏">👏</button>
+          <button class="lr-react" type="button" data-e="🙌">🙌</button>
+          <button class="lr-react" type="button" data-e="⚡">⚡</button>
+        </div>
+      </div>
+      <div class="lr-count"><span id="lrNum">0</span> reactions from you · <span class="lr-note">no download — you just did that</span></div>
+    </div>
+  </div>
+</section>
+
 <section id="different">
   <div class="wrap">
-    <div class="kicker">Why Venu is different</div>
+    <div class="kicker">The audience activation layer</div>
     <h2 class="sec">Every other event app is a <span class="hl">reference utility.</span></h2>
-    <p class="sec-lede">Agenda, map, attendee directory — a thing people open <em>between</em> sessions and forget during them. Venu is the opposite: the phone as a production instrument, wired into what's happening on stage right now. One question runs every decision we make.</p>
+    <p class="sec-lede">Agenda, map, attendee directory — a thing people open <em>between</em> sessions and forget during them. Venu is the opposite: the phone as a production instrument, wired into what's happening on stage right now.</p>
     <div class="filter-line">
       <span class="fl-x">Administrator of a schedule</span>
       <span class="fl-arrow">→</span>
@@ -465,7 +486,7 @@
       <div class="diff">
         <span class="tag">Category</span>
         <h3>An activation layer, not an app line-item</h3>
-        <p>We don't enter the event-app bake-off. Venu sits next to the show — the moments the audience feels, measured tap by tap. Different budget, different buyer, nobody quoting against us.</p>
+        <p>We don't enter the event-app bake-off. Venu sits next to the show — the moments the audience feels, measured tap by tap. Different budget, different buyer.</p>
       </div>
     </div>
   </div>
@@ -1087,32 +1108,69 @@ function finale(){
   const io=new IntersectionObserver(es=>{es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });},{threshold:0.12, rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
 
-  // 1b) live-room proof: your taps become reactions that rise on the page — proves the no-download pitch
+  // 1b) live-room: real camera join (getUserMedia) + reactions — proves the no-download live-room pitch on the page
   (function(){
-    const stage=document.getElementById('lrStage');
     const room=document.getElementById('liveRoom');
+    const stage=document.getElementById('lrStage');
     const numEl=document.getElementById('lrNum');
-    if(!stage||!room||!numEl) return;
+    if(!room||!stage||!numEl) return;
+    const video=document.getElementById('lrVideo');
+    const ph=document.getElementById('lrPlaceholder');
+    const joinBtn=document.getElementById('lrJoin');
     const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
     const SEEDS=['🔥','❤️','👏','🙌','⚡'];
-    let taps=0;
+    let taps=0, stream=null;
+
     function spawn(e){
       const s=document.createElement('div');
       s.className='lr-float'; s.textContent=e;
       s.style.left=(8+Math.random()*82)+'%';
-      s.style.fontSize=(20+Math.random()*16)+'px';
+      s.style.fontSize=(24+Math.random()*18)+'px';
       stage.appendChild(s);
-      setTimeout(()=>{ s.remove(); },1550);
+      setTimeout(()=>s.remove(),1650);
     }
     room.querySelectorAll('.lr-react').forEach(b=>{
       b.addEventListener('click',()=>{ spawn(b.dataset.e); taps++; numEl.textContent=taps; });
     });
-    // ambient life — a few reactions from "the rest of the room" (visual only, not counted); paused when tab hidden or reduced-motion
+
+    function stopCam(){
+      if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; }
+      if(video){ video.srcObject=null; video.style.display='none'; }
+      if(ph){ ph.style.display=''; ph.textContent='Your camera feed appears here'; }
+      room.classList.remove('joined');
+      joinBtn.classList.remove('live');
+      joinBtn.innerHTML='📷&nbsp; Join the live room';
+    }
+    async function joinCam(){
+      if(stream){ stopCam(); return; }
+      if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+        if(ph) ph.textContent='Camera not supported in this browser.'; return;
+      }
+      joinBtn.disabled=true; joinBtn.textContent='Starting camera…';
+      try{
+        stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+        video.srcObject=stream; video.style.display='block'; if(ph) ph.style.display='none';
+        await video.play().catch(function(){});
+        room.classList.add('joined');
+        joinBtn.classList.add('live');
+        joinBtn.innerHTML='● You’re live — tap to leave';
+      }catch(err){
+        if(ph){ ph.style.display='';
+          ph.textContent = (err && err.name==='NotAllowedError')
+            ? 'Camera blocked — allow access in your browser to join.'
+            : 'No camera available on this device.';
+        }
+      }finally{ joinBtn.disabled=false; }
+    }
+    joinBtn.addEventListener('click',joinCam);
+    addEventListener('pagehide',stopCam);
+
+    // ambient reactions from "the rest of the room" (visual only, not counted); paused when hidden or reduced-motion
     if(!rm){
       let started=false;
       const aio=new IntersectionObserver(es=>{es.forEach(x=>{ if(x.isIntersecting && !started){ started=true;
-        setInterval(()=>{ if(!document.hidden && Math.random()<0.6) spawn(SEEDS[Math.floor(Math.random()*SEEDS.length)]); },1300);
-      }});},{threshold:0.4});
+        setInterval(()=>{ if(!document.hidden && Math.random()<0.55) spawn(SEEDS[Math.floor(Math.random()*SEEDS.length)]); },1400);
+      }});},{threshold:0.35});
       aio.observe(room);
     }
   })();
