@@ -144,6 +144,17 @@ CLIENTS.southwestchili = {
   },
   departures: true,   /* schedule renders as a departures board */
 
+  /* Photo-wall copy — this event has no "fan cam"; it's photos from
+     around the ranch. Organizers pre-load prep-day shots before doors so
+     the big-screen loop is never empty. */
+  wall: {
+    title: "Photos",
+    tag: "Around the ranch",
+    ctaTitle: "Caught something good?",
+    ctaSub: "Share it — the best shots rotate on the big screen and land in the feed below all day.",
+    btn: "Take or choose a photo"
+  },
+
   /* Insider nuggets — rotating one-liners on Now. Gentle nods only:
      employees know every reference; nothing that stings. */
   quips: [

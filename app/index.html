@@ -66,13 +66,22 @@
       <div id="sponsorList"></div>
     </section>
 
-    <!-- PHOTO WALL -->
+    <!-- PHOTO WALL (copy is overridable per client via config.wall) -->
     <section class="view" id="view-wall">
-      <h2 class="section">Photo wall <span class="tag">Fan cam</span></h2>
+      <h2 class="section"><span id="wallTitle">Photo wall</span> <span class="tag" id="wallTag">Live</span></h2>
       <div class="bigscreen-cta">
-        <h3>Your shot,<br>10 feet tall</h3>
-        <p>Approved photos rotate on the big screen during breaks. Keep it fun, keep it clean.</p>
-        <input type="file" id="photoInput" accept="image/*" capture="environment" hidden>
+        <h3 id="wallCtaTitle">Share the day.</h3>
+        <p id="wallCtaSub">Approved photos rotate on the big screen and right here all day. Keep it fun, keep it clean.</p>
+        <!-- no `capture` attr: phones offer BOTH camera and library -->
+        <input type="file" id="photoInput" accept="image/*" hidden>
+        <div id="photoCompose" hidden>
+          <img id="photoPreview" alt="Your photo, ready to send">
+          <input id="photoCaption" maxlength="60" placeholder="Add a caption (optional)" autocomplete="off">
+          <div class="pc-row">
+            <button class="btn" id="photoSend">Send it</button>
+            <button class="btn ghost" id="photoCancel">Cancel</button>
+          </div>
+        </div>
         <button class="btn" id="submitBtn" onclick="document.getElementById('photoInput').click()">Take or choose a photo</button>
         <div class="status-banner" id="photoStatus"></div>
         <div class="privacy-note">Photos are shared with event moderators and may appear on public screens.</div>
@@ -86,8 +95,15 @@
       <h2 class="section">Moderation <span class="tag">Staff only</span></h2>
       <div class="mod-count" id="modCount">Loading queue…</div>
       <div id="modQueue"></div>
-      <button class="btn ghost" onclick="loadModQueue()">Refresh queue</button>
+      <h2 class="section">Featured now <span class="tag">Tap remove to pull one</span></h2>
+      <div id="modFeatured"></div>
+      <div class="mod-actions-row">
+        <button class="btn ghost" onclick="loadModQueue()">Refresh</button>
+        <button class="btn ghost" onclick="switchTab('home')">Exit moderator</button>
+      </div>
     </section>
+
+    <footer class="venu-credit"><a href="https://thevenu.app" target="_blank" rel="noopener">Event Experience Crafted by <b>Venu</b></a></footer>
   </main>
 
   <nav class="tabbar" id="tabbar"></nav>
@@ -95,6 +111,7 @@
 
 <!-- BIG SCREEN -->
 <div id="displayView">
+  <button id="displayExit" onclick="exitDisplay()" title="Exit big screen">✕</button>
   <div class="frame" id="displayFrame"><div class="empty" id="displayEmpty">Waiting for your photos…<br>Scan the QR to join</div></div>
   <div class="caption"><span class="live-dot"></span> <span id="displayCaption">FAN CAM</span></div>
   <div class="subcap" id="displaySub"></div>

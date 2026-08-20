@@ -356,10 +356,10 @@ body.theme-chili{
 @media (prefers-reduced-motion:reduce){ .route-chip .rc-plane{animation:none;} }
 /* Southwest heart placements */
 .brandmark .kicker .sw-heart{width:12px; height:12px; vertical-align:-2px; margin-right:5px; display:inline-block;}
-.sp-kicker .sw-heart{width:17px; height:17px; vertical-align:-4px; margin-right:8px; display:inline-block;}
+.sp-kicker .sw-heart{width:24px; height:24px; vertical-align:-7px; margin-right:9px; display:inline-block;}
 .bp-logo .sw-heart{width:26px; height:26px; display:block;}
 /* Now homepage: state tiles, live mirror, quips */
-.home-tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px;}
+.home-tiles{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px;}
 .home-tiles button{
   background:var(--surface); border:1px solid var(--line); border-radius:14px;
   padding:12px 11px; text-align:left; color:var(--ink); transition:transform .12s;
@@ -382,6 +382,79 @@ body.theme-chili{
   min-height:20px; opacity:0; padding:0 10px;}
 .quip.in{animation:quipIn .7s ease forwards;}
 @keyframes quipIn{to{opacity:1;}}
+/* hunt strip — quieter than the tiles, only shown once they've started */
+.hunt-strip{
+  width:100%; display:flex; align-items:center; gap:10px; margin-top:8px;
+  background:none; border:1.5px dashed var(--line); border-radius:12px;
+  padding:10px 14px; color:var(--muted); text-align:left;
+}
+.hunt-strip i{font-style:normal; font-size:9px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--gold);}
+.hunt-strip b{font-size:12.5px; font-weight:700; color:var(--ink);}
+.hunt-strip em{font-style:normal; margin-left:auto; font-size:11px; font-weight:700; color:var(--gold);}
+
+/* =========================================================================
+   PHOTO COMPOSE (preview + caption), WALL CAPTIONS, LIGHTBOX
+   ========================================================================= */
+#photoCompose{margin-top:6px;}
+#photoCompose img{
+  width:132px; height:132px; object-fit:cover; border-radius:14px; margin:0 auto 10px;
+  border:2px solid var(--gold);
+}
+#photoCaption{
+  width:100%; background:var(--surface2); border:1.5px solid var(--line); border-radius:12px;
+  color:var(--ink); font-family:var(--body); font-size:14px; padding:12px 14px; outline:none;
+  margin-bottom:10px; text-align:center;
+}
+#photoCaption:focus{border-color:var(--gold);}
+.pc-row{display:flex; gap:8px;}
+.pc-row .btn{flex:1;}
+.wall-grid .ph{position:relative; padding:0; cursor:pointer;}
+.wall-grid .ph-cap{
+  position:absolute; left:0; right:0; bottom:0; font-size:9.5px; font-weight:700; color:#fff;
+  padding:14px 7px 6px; text-align:left; pointer-events:none;
+  background:linear-gradient(transparent, rgba(0,0,0,.72));
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.lightbox{
+  position:fixed; inset:0; z-index:250; background:rgba(4,7,22,.93);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:20px; animation:fadein .2s ease; cursor:zoom-out;
+}
+.lightbox.out{opacity:0; transition:opacity .25s;}
+.lightbox img{max-width:100%; max-height:78vh; width:auto; height:auto; border-radius:14px;}
+.lightbox .lb-cap{color:#fff; font-size:14px; font-weight:600; margin-top:14px; text-align:center; max-width:40ch;}
+.lightbox .lb-close{
+  position:absolute; top:calc(14px + env(safe-area-inset-top)); right:16px; color:#fff;
+  font-size:18px; background:rgba(255,255,255,.12); border-radius:50%; width:40px; height:40px;
+}
+
+/* =========================================================================
+   BIG SCREEN: no-crop display (blur-fill letterbox) + caption + exit
+   ========================================================================= */
+.disp-wrap{position:relative; width:100%; height:100%; overflow:hidden;}
+.disp-bg{position:absolute; inset:-8%; width:116%; height:116%; object-fit:cover;
+  filter:blur(28px) brightness(.55); transform:scale(1.1);}
+.disp-main{position:relative; width:100%; height:100%; object-fit:contain;}
+.disp-cap{
+  position:absolute; left:0; right:0; bottom:0; text-align:center; color:#fff;
+  font-size:clamp(14px, 2vw, 24px); font-weight:700; padding:38px 20px 18px;
+  background:linear-gradient(transparent, rgba(0,0,0,.65));
+}
+#displayExit{
+  position:fixed; top:calc(14px + env(safe-area-inset-top)); left:16px; z-index:110;
+  color:rgba(255,255,255,.4); font-size:16px; width:40px; height:40px; border-radius:50%;
+  background:rgba(255,255,255,.08); display:none;
+}
+body.display-mode #displayExit{display:block;}
+#displayExit:hover{color:#fff;}
+
+/* moderator footer actions + venu credit */
+.mod-actions-row{display:flex; gap:8px; margin-top:16px;}
+.mod-actions-row .btn{flex:1;}
+.venu-credit{text-align:center; padding:26px 0 10px;}
+.venu-credit a{color:var(--muted); font-size:11px; letter-spacing:.06em; text-decoration:none;}
+.venu-credit a b{color:var(--ink); font-weight:800;}
+.venu-credit a:hover b{color:var(--gold);}
 @media (prefers-reduced-motion:reduce){ .theme-chili .live-pill.live-chip::after{animation:none;} }
 .theme-chili #displayView .frame{border-color:var(--gold); box-shadow:0 0 80px rgba(249,182,18,.3);}
 

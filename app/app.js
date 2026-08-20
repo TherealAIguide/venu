@@ -53,6 +53,13 @@ document.getElementById("displayCaption").textContent = C.brand.displayCaption;
 document.getElementById("displaySub").textContent = C.brand.displaySub;
 document.title = C.brand.name + " — Event App";
 document.body.className = "theme-" + (C.theme || "pulse");
+/* Per-client photo-wall copy (config.wall) — defaults stay generic. */
+if(C.wall){
+  const W = C.wall, set = (id, v, html)=>{ const n = document.getElementById(id); if(n && v != null) html ? n.innerHTML = v : n.textContent = v; };
+  set("wallTitle", W.title); set("wallTag", W.tag);
+  set("wallCtaTitle", W.ctaTitle, true); set("wallCtaSub", W.ctaSub);
+  set("submitBtn", W.btn);
+}
 const _tc = document.querySelector('meta[name="theme-color"]');
 if(_tc) _tc.setAttribute("content", ({ gala:"#F7F4EC", chili:"#101A45" })[C.theme] || "#0A0A0B");
 
@@ -98,13 +105,14 @@ window.venuFX = {
   flyby(opts){
     if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const o = opts || {};
+    const size = o.size || 34;
     const el = document.createElement("div");
     el.className = "fx-fly";
     el.style.top = o.top || (18 + Math.random()*30) + "%";
     if(o.delay) el.style.animationDelay = (o.delay/1000) + "s";
     el.innerHTML = `
-      <span class="fx-trail"></span>
-      <svg class="fx-plane" viewBox="0 0 24 24" aria-hidden="true">
+      <span class="fx-trail" style="height:${Math.max(3, Math.round(size/9))}px"></span>
+      <svg class="fx-plane" style="width:${size}px;height:${size}px" viewBox="0 0 24 24" aria-hidden="true">
         <g transform="rotate(90 12 12)">
           <path fill="#fff" d="M21.5 15.5v-2l-8-5V3c0-.83-.67-1.5-1.5-1.5S10.5 2.17 10.5 3v5.5l-8 5v2l8-2.5v5.5l-2 1.5V21.5l3.5-1 3.5 1V20l-2-1.5V13l8 2.5z"/>
         </g>
@@ -272,7 +280,7 @@ if(C.splash && !deepTarget && !["#display","#mod"].includes(location.hash)){
   sp.innerHTML = `
     <div class="sp-bands"><i></i><i></i><i></i></div>
     <div class="sp-inner">
-      ${C.splash.logoSvg || HEART_PEPPER_SVG}
+      ${C.splash.logoSvg || ""}
       <div class="sp-kicker">${C.aviation ? SW_HEART : ""}${C.splash.kicker}</div>
       <h1 class="sp-title">${C.splash.title.map((l,i)=>`<span style="animation-delay:${(0.18*i+0.25).toFixed(2)}s">${l}</span>`).join("")}</h1>
       <div class="sp-date">${C.splash.date}</div>
@@ -281,7 +289,7 @@ if(C.splash && !deepTarget && !["#display","#mod"].includes(location.hash)){
     </div>`;
   document.body.appendChild(sp);
   document.body.classList.add("splash-open");
-  if(C.aviation) venuFX.flyby({ top:"12%", delay:900 });
+  if(C.aviation) venuFX.flyby({ top:"12%", delay:900, size:58 });
   document.getElementById("splashCta").onclick = ()=>{
     sp.classList.add("out");
     setTimeout(()=>{ sp.remove(); document.body.classList.remove("splash-open"); showWelcome(); }, 480);
@@ -383,7 +391,7 @@ function switchTab(id){
   if(tb) tb.classList.add("active");
   if(id==="wall") renderWall();
   if(id==="mod") loadModQueue();
-  if(id==="home" && typeof refreshHomeTiles === "function") refreshHomeTiles();
+  if(id==="home" && typeof refreshHomeTiles === "function"){ refreshHomeTiles(); if(typeof startMirror === "function") startMirror(); }
   window.scrollTo({top:0});
 }
 switchTab("home");
@@ -423,6 +431,7 @@ function buildChiliHome(){
     </div>
     <button class="bp-teaser" id="bpTeaser"></button>
     <div class="home-tiles" id="homeTiles"></div>
+    <button class="hunt-strip" id="huntStrip" hidden onclick="venuGoHunt()"></button>
     <div class="mirror card">
       <div class="mirror-head"><span class="live-dot"></span> ON THE BIG SCREEN <em id="mirrorCount"></em></div>
       <div class="mirror-frame" id="mirrorFrame"><div class="mirror-empty">Photos land here as moderators approve them.</div></div>
@@ -455,10 +464,27 @@ function refreshHomeTiles(){
   const luvd  = Object.values(log).filter(x=>x && x.luv).length;
   t.innerHTML = `
     <button onclick="switchTab('polls')"><i>Vote</i><b>${vote ? "Results" : "Cast it"}</b><span>${vote ? "You're locked in" : "Closes 2:00 PM"}</span></button>
-    <button onclick="switchTab('venueMap')"><i>Hunt</i><b>${hn} of ${ha}</b><span>${ha && hn===ha ? "Complete!" : "photo stops"}</span></button>
     <button onclick="switchTab('polls')"><i>Tasting log</i><b>${tried} tried</b><span>${luvd} LUV'd</span></button>`;
+  /* The hunt rides quieter: a slim strip, only once they've started,
+     deep-linking to the hunt section at the bottom of the map page. */
+  const strip = document.getElementById("huntStrip");
+  if(strip){
+    if(hn > 0){
+      strip.hidden = false;
+      strip.innerHTML = `<i>Hunt</i><b>${hn} of ${ha} found</b><em>${ha && hn===ha ? "Complete — claim it →" : "Keep hunting →"}</em>`;
+    } else {
+      strip.hidden = true;
+    }
+  }
 }
 window.refreshHomeTiles = refreshHomeTiles;
+window.venuGoHunt = function(){
+  switchTab("venueMap");
+  setTimeout(()=>{
+    const e = document.getElementById("embed-scavenger");
+    if(e) e.scrollIntoView({ behavior:"smooth", block:"start" });
+  }, 250);
+};
 
 /* Live mirror of the big screen — the same approved pool the venue
    display rotates, cycling in-app. Doubles as the no-screen contingency:
@@ -583,32 +609,56 @@ document.getElementById("sponsorList").innerHTML = C.sponsors.map(t=>`
       <a class="visit" href="${s.url}">Visit</a></div>`;
   }).join("")}`).join("");
 
-/* ========================= PHOTO SUBMIT ========================= */
+/* ========================= PHOTO SUBMIT =========================
+   Two-step: pick/take a photo → preview + optional caption → send.
+   No `capture` attribute on the input, so phones offer camera AND
+   library. Captions ride with the photo everywhere it appears. */
+let pendingPhoto = null;
+const _pc = ()=>document.getElementById("photoCompose");
+function resetPhotoCompose(){
+  pendingPhoto = null;
+  _pc().hidden = true;
+  document.getElementById("submitBtn").hidden = false;
+  document.getElementById("photoCaption").value = "";
+  document.getElementById("photoInput").value = "";
+}
 document.getElementById("photoInput").addEventListener("change", async (e)=>{
   const file = e.target.files[0];
   if(!file) return;
-  const status = document.getElementById("photoStatus");
-  const btn = document.getElementById("submitBtn");
-  btn.disabled = true; btn.textContent = "Uploading…";
   try{
-    const dataUrl = await resizeImage(file, 700, 0.72);
+    pendingPhoto = await resizeImage(file, 700, 0.72);
+    document.getElementById("photoPreview").src = pendingPhoto;
+    document.getElementById("photoStatus").className = "status-banner";
+    document.getElementById("photoStatus").textContent = "";
+    _pc().hidden = false;
+    document.getElementById("submitBtn").hidden = true;
+  }catch(err){ resetPhotoCompose(); }
+});
+document.getElementById("photoCancel").onclick = resetPhotoCompose;
+document.getElementById("photoSend").onclick = async ()=>{
+  if(!pendingPhoto) return;
+  const status = document.getElementById("photoStatus");
+  const send = document.getElementById("photoSend");
+  send.disabled = true; send.textContent = "Sending…";
+  try{
+    const cap = document.getElementById("photoCaption").value.trim().slice(0,60);
     const id = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
-    const ok = await store.setPhoto(id, { img:dataUrl, status:"pending", ts:Date.now() });
+    const ok = await store.setPhoto(id, { img:pendingPhoto, cap, status:"pending", ts:Date.now() });
     if(!ok) throw new Error("storage");
     const idx = await store.getIndex();
     idx.push(id);
     await store.setIndex(idx);
     status.className = "status-banner ok";
     status.textContent = "Sent to moderators — watch the big screen!";
+    resetPhotoCompose();
   }catch(err){
     status.className = "status-banner err";
     status.textContent = store.available
       ? "Upload didn't go through. Try a smaller photo or try again."
       : "Storage isn't available in this preview — works once deployed.";
   }
-  btn.disabled = false; btn.textContent = "Take or choose a photo";
-  e.target.value = "";
-});
+  send.disabled = false; send.textContent = "Send it";
+};
 
 function resizeImage(file, maxDim, quality){
   return new Promise((resolve, reject)=>{
@@ -638,9 +688,24 @@ async function renderWall(){
     const p = await store.getPhoto(id);
     if(p && p.status==="approved") photos.push(p);
   }
-  grid.innerHTML = photos.length
-    ? photos.reverse().map(p=>`<div class="ph"><img src="${p.img}" alt="Featured event photo"></div>`).join("")
+  const rev = photos.slice().reverse();
+  grid.innerHTML = rev.length
+    ? rev.map((p,i)=>`<button class="ph" data-i="${i}"><img src="${p.img}" alt="${p.cap || "Featured event photo"}">${p.cap ? `<span class="ph-cap">${p.cap}</span>` : ""}</button>`).join("")
     : `<div class="wall-empty">No photos featured yet — be the first.</div>`;
+  grid.querySelectorAll(".ph").forEach(b=>{ b.onclick = ()=>openLightbox(rev[+b.dataset.i]); });
+}
+
+/* Tap any wall photo to expand it. */
+function openLightbox(p){
+  const lb = document.createElement("div");
+  lb.className = "lightbox";
+  lb.innerHTML = `
+    <img src="${p.img}" alt="${p.cap || "Event photo"}">
+    ${p.cap ? `<div class="lb-cap">${p.cap}</div>` : ""}
+    <button class="lb-close" aria-label="Close">✕</button>`;
+  const close = ()=>{ lb.classList.add("out"); setTimeout(()=>lb.remove(), 250); };
+  lb.addEventListener("click", close);
+  document.body.appendChild(lb);
 }
 
 /* ========================= MODERATOR ========================= */
@@ -657,12 +722,40 @@ async function loadModQueue(){
   q.innerHTML = pending.map(p=>`
     <div class="mod-item card">
       <div class="thumb"><img src="${p.img}" alt="Submitted photo pending review"></div>
-      <div class="meta"><div class="nm">Submission</div>${new Date(p.ts).toLocaleTimeString()}</div>
+      <div class="meta"><div class="nm">${p.cap || "Submission"}</div>${new Date(p.ts).toLocaleTimeString()}</div>
       <div class="mod-actions">
         <button class="ok" onclick="modAction('${p.id}','approved')">Approve</button>
         <button class="no" onclick="modAction('${p.id}','rejected')">Reject</button>
       </div>
     </div>`).join("") || `<div class="card wall-empty">Queue is clear.</div>`;
+  loadModFeatured();
+}
+
+/* Everything currently featured (approved) — moderators can pull any
+   photo off the wall + big screen loop instantly. */
+async function loadModFeatured(){
+  const box = document.getElementById("modFeatured");
+  if(!box) return;
+  const idx = await store.getIndex();
+  const feats = [];
+  for(const id of idx){
+    const p = await store.getPhoto(id);
+    if(p && p.status === "approved") feats.push({ id, ...p });
+  }
+  box.innerHTML = feats.length ? feats.reverse().map(p=>`
+    <div class="mod-item card">
+      <div class="thumb"><img src="${p.img}" alt="${p.cap || "Featured photo"}"></div>
+      <div class="meta"><div class="nm">${p.cap || "Featured"}</div>${new Date(p.ts).toLocaleTimeString()}</div>
+      <div class="mod-actions">
+        <button class="no" onclick="modRemove('${p.id}')">Remove</button>
+      </div>
+    </div>`).join("") : `<div class="card wall-empty">Nothing featured right now.</div>`;
+}
+async function modRemove(id){
+  await store.delPhoto(id);
+  const idx = await store.getIndex();
+  await store.setIndex(idx.filter(x=>x !== id));
+  loadModQueue();
 }
 async function modAction(id, status){
   const p = await store.getPhoto(id);
@@ -691,11 +784,13 @@ async function refreshDisplayPool(){
   const pool = [];
   for(const id of idx.slice(-40)){
     const p = await store.getPhoto(id);
-    if(p && p.status==="approved") pool.push(p.img);
+    if(p && p.status==="approved") pool.push({ img:p.img, cap:p.cap });
   }
   displayPool = pool;
   rotateDisplay();
 }
+/* Portrait shots letterbox over a blurred fill instead of cropping —
+   every photo shows whole on the venue screen. */
 function rotateDisplay(){
   const frame = document.getElementById("displayFrame");
   if(!displayPool.length){
@@ -703,7 +798,18 @@ function rotateDisplay(){
     return;
   }
   displayI = (displayI + 1) % displayPool.length;
-  frame.innerHTML = `<img src="${displayPool[displayI]}" alt="Featured attendee photo">`;
+  const p = displayPool[displayI];
+  frame.innerHTML = `
+    <div class="disp-wrap">
+      <img class="disp-bg" src="${p.img}" alt="" aria-hidden="true">
+      <img class="disp-main" src="${p.img}" alt="Featured attendee photo">
+      ${p.cap ? `<div class="disp-cap">${p.cap}</div>` : ""}
+    </div>`;
+}
+function exitDisplay(){
+  document.body.classList.remove("display-mode");
+  if(displayTimer){ clearInterval(displayTimer); displayTimer = null; }
+  if(location.hash === "#display") history.replaceState(null, "", location.pathname + location.search);
 }
 if(location.hash === "#display") enterDisplay();
 if(location.hash === "#mod") enterMod();
