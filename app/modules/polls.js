@@ -524,7 +524,28 @@
           venuFX.burst(54);
           if(venuFX.flyby && AV.flight) venuFX.flyby({ top:"20%", delay:250 });
         }
-        setTimeout(()=>{ fl.classList.add("out"); setTimeout(()=>fl.remove(), 420); renderResults(); }, 1700);
+        setTimeout(()=>{
+          fl.classList.add("out");
+          setTimeout(()=>fl.remove(), 420);
+          /* main vote done → hand out the remaining trophies before results */
+          const picks = getSup();
+          const remaining = P.superlatives ? P.superlatives.cats.filter(c=>!picks[c.id]).length : 0;
+          remaining ? renderSupersStep() : renderResults();
+        }, 1700);
+      }
+
+      /* ---------- 4b · SUPERLATIVES STEP (right after the main vote) ---------- */
+      function renderSupersStep(){
+        el.innerHTML = `
+          <h2 class="section">While you're here.</h2>
+          <p class="poll-sub">Your chili vote is in. A few more trophies still need homes — crown them, then see where your bowl stands.</p>
+          <div id="supersWrap"></div>
+          <button class="btn" id="supersDone" style="width:100%; margin-top:6px">See live results</button>`;
+        renderSupers(el.querySelector("#supersWrap"));
+        /* hide the duplicate section header inside the step */
+        const h = el.querySelector("#supersWrap h2");
+        if(h) h.style.display = "none";
+        el.querySelector("#supersDone").onclick = renderResults;
       }
 
       /* ---------- 5 · RESULTS ---------- */
