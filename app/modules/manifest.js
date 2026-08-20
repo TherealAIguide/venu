@@ -9,7 +9,7 @@ const VENU_MODULES = [
   { id:"schedule",  file:"schedule.js",   cat:"Core",        name:"Schedule & agenda",   status:"live",    requires:[] },
   { id:"speakers",  file:"speakers.js",   cat:"Core",        name:"Speaker profiles",    status:"live",    requires:["schedule"] },
   { id:"announce",  file:"announce.js",   cat:"Core",        name:"Announcements",       status:"planned", requires:[] },
-  { id:"venueMap",  file:"venue-map.js",  cat:"Core",        name:"Venue map + search",  status:"planned", requires:[] },
+  { id:"venueMap",  file:"venue-map.js",  cat:"Core",        name:"Venue map + search",  status:"beta",    requires:[] },
   { id:"geofence",  file:"geofence.js",   cat:"Core",        name:"Geo-fenced alerts",   status:"planned", requires:[] },
 
   // Networking
@@ -21,9 +21,9 @@ const VENU_MODULES = [
   { id:"photoWall", file:"photo-wall.js", cat:"Engagement",  name:"Photo wall / fan cam",status:"live",    requires:["moderation"] },
   { id:"geoPhoto",  file:"geo-photo.js",  cat:"Engagement",  name:"Geo-fenced photo ops",status:"planned", requires:["photoWall"] },
   { id:"qa",        file:"qa.js",         cat:"Engagement",  name:"Live Q&A",            status:"planned", requires:["moderation"] },
-  { id:"polls",     file:"polls.js",      cat:"Engagement",  name:"Live polls",          status:"planned", requires:[] },
+  { id:"polls",     file:"polls.js",      cat:"Engagement",  name:"Live polls",          status:"beta",    requires:[] },
   { id:"trivia",    file:"trivia.js",     cat:"Engagement",  name:"Trivia / games",      status:"planned", requires:[] },
-  { id:"scavenger", file:"scavenger.js",  cat:"Engagement",  name:"Scavenger hunt",      status:"planned", requires:[] },
+  { id:"scavenger", file:"scavenger.js",  cat:"Engagement",  name:"Scavenger hunt",      status:"beta",    requires:[] },
   { id:"lightShow", file:"light-show.js", cat:"Engagement",  name:"Screen light show",   status:"planned", requires:[] },
   { id:"lyrics",    file:"lyrics.js",     cat:"Engagement",  name:"Singalong lyrics",    status:"planned", requires:[] },
   { id:"raffle",    file:"raffle.js",     cat:"Engagement",  name:"Raffle / prize drawing",status:"planned", requires:[] },
@@ -41,7 +41,7 @@ const VENU_MODULES = [
   { id:"auction",   file:"auction.js",    cat:"Revenue",     name:"Live auction",        status:"planned", requires:[] },
 
   // Branding
-  { id:"splash",    file:"splash.js",     cat:"Branding",    name:"Custom splash screen",status:"planned", requires:[] },
+  { id:"splash",    file:"splash.js",     cat:"Branding",    name:"Custom splash screen",status:"beta",    requires:[] },  // rendered by app.js from client.splash config
   { id:"domain",    file:"domain.js",     cat:"Branding",    name:"Custom domain",       status:"live",    requires:[] },
 
   // Operations
