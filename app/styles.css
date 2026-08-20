@@ -29,6 +29,7 @@ header.appbar{
 .live-pill{
   display:flex; align-items:center; gap:6px; font-size:11px; font-weight:700; letter-spacing:.08em;
   background:var(--surface); border:1px solid var(--line); border-radius:99px; padding:6px 12px;
+  white-space:nowrap;
 }
 .live-dot{width:7px; height:7px; border-radius:50%; background:var(--accent); animation:pulse 1.6s infinite;}
 @keyframes pulse{0%,100%{opacity:1; transform:scale(1);}50%{opacity:.4; transform:scale(.8);}}
@@ -272,3 +273,312 @@ body.theme-gala{
 .theme-gala nav.tabbar{background:rgba(255,255,255,.92); border-top:1px solid var(--line);}
 .theme-gala .tabbar button.active{color:#B08D1E;}
 .theme-gala .tabbar button.active .ico{background:rgba(201,162,39,.16); color:#B08D1E; box-shadow:none;}
+
+/* ---------- CHILI (Southwest-inspired: bold blue field, warm red +
+   sunrise yellow accents, friendly rounded display type) ---------- */
+body.theme-chili{
+  --bg:#101A45; --surface:#182352; --surface2:#212E66; --line:#2D3C7E;
+  --ink:#FFFFFF; --muted:#9CA7D6;
+  --accent-soft:rgba(229,29,35,.2);
+  --navy:#1B2A5E;
+  --display:'Figtree','Inter',-apple-system,system-ui,sans-serif;
+  --body:'Inter',-apple-system,system-ui,sans-serif;
+  --radius:16px;
+  background:
+    radial-gradient(85% 50% at 50% -6%, rgba(48,76,178,.55), transparent 60%),
+    radial-gradient(60% 40% at 100% 100%, rgba(249,182,18,.10), transparent 60%),
+    var(--bg);
+}
+/* Southwest type system: huge, heavy, WHITE, sentence case, ends with a
+   period. Copy carries the periods; this carries the weight. */
+.theme-chili .brandmark .kicker{letter-spacing:.26em; color:var(--gold);}
+.theme-chili .brandmark .name{font-family:var(--display); font-size:20px; text-transform:none; font-weight:800; letter-spacing:-.01em;}
+.theme-chili h2.section{text-transform:none; font-weight:800; font-size:30px; letter-spacing:-.02em; color:#fff; line-height:1.05;}
+.theme-chili .hero{border-color:var(--line);}
+.theme-chili .hero .stripe{height:6px; background:linear-gradient(90deg,#304CB2 0 34%,#E51D23 34% 67%,#F9B612 67% 100%);}
+.theme-chili .hero h1{text-transform:none; font-size:32px; font-weight:800; letter-spacing:-.02em; color:#fff;}
+.theme-chili .hero .now-label{color:var(--gold);}
+/* CTAs: Southwest yellow rounded-rects with navy text */
+.theme-chili .btn{
+  background:var(--gold); color:var(--navy); font-weight:800; font-size:15px;
+  border-radius:12px; padding:15px 22px; letter-spacing:0;
+  box-shadow:0 8px 24px rgba(249,182,18,.28);
+  transition:transform .12s;
+}
+.theme-chili .btn:active{transform:scale(.97);}
+.theme-chili .btn.ghost{background:var(--surface2); color:var(--ink); border:1px solid var(--line); box-shadow:none;}
+.theme-chili .bigscreen-cta{border-color:var(--line);
+  background:radial-gradient(120% 90% at 80% 0%, rgba(249,182,18,.16), transparent 55%), var(--surface);}
+.theme-chili .bigscreen-cta h3{text-transform:none; font-weight:800; font-size:30px; letter-spacing:-.02em; color:#fff;}
+.theme-chili .daychips button.active{background:var(--gold); border-color:var(--gold); color:var(--navy);}
+.theme-chili .slot .time{color:var(--gold); font-weight:800;}
+.theme-chili .slot .kind.main{color:var(--gold); border-color:rgba(249,182,18,.4);}
+/* Floating tab dock with tricolor hairline + springy active state */
+.theme-chili main{padding-bottom:calc(126px + env(safe-area-inset-bottom));}
+.theme-chili nav.tabbar{
+  position:fixed; width:calc(100% - 20px); max-width:500px;
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  border-radius:24px; border:1px solid var(--line); border-top:1px solid var(--line);
+  background:rgba(13,21,58,.9); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 14px 44px rgba(0,0,0,.5);
+  padding:9px 6px; overflow:hidden;
+}
+.theme-chili nav.tabbar::before{
+  content:""; position:absolute; top:0; left:26px; right:26px; height:3px;
+  border-radius:0 0 4px 4px;
+  background:linear-gradient(90deg,#304CB2 0 34%,#E51D23 34% 67%,#F9B612 67% 100%);
+}
+.theme-chili .tabbar button.active{color:#fff;}
+.theme-chili .tabbar button.active .ico{
+  background:var(--gold); color:var(--navy);
+  animation:tabPop .35s cubic-bezier(.2,.9,.3,1.5);
+}
+@keyframes tabPop{from{transform:scale(.6);}to{transform:scale(1);}}
+/* Pulsing LIVE chip (one-day events) + check-in avatar */
+.theme-chili .live-pill.live-chip{
+  position:relative; border-color:rgba(229,29,35,.55); background:rgba(229,29,35,.14); color:#fff;
+}
+.theme-chili .live-pill.live-chip::after{
+  content:""; position:absolute; inset:-1px; border-radius:99px;
+  border:1px solid rgba(229,29,35,.6); animation:chipPulse 2.2s infinite; pointer-events:none;
+}
+@keyframes chipPulse{0%{opacity:.8; transform:scale(1);}70%{opacity:0; transform:scale(1.22);}100%{opacity:0; transform:scale(1.22);}}
+.pill-avatar{width:22px; height:22px; border-radius:50%; object-fit:cover; border:1.5px solid rgba(255,255,255,.75);}
+/* Route-progress chip (the Southwest app's flight widget, miniaturized) */
+.theme-chili .live-pill.route-chip{gap:7px; padding:6px 12px 6px 8px;}
+.route-chip .rc-heart svg{width:18px; height:18px; display:block;}
+.route-chip .rc-ap{font-size:11px; font-weight:800; letter-spacing:.06em; color:#fff;}
+.route-chip .rc-track{position:relative; width:36px; height:12px;
+  border-bottom:2px dashed rgba(255,255,255,.4); margin-top:-8px;}
+.route-chip .rc-plane{position:absolute; top:-2px; left:30%; width:14px; height:14px;
+  animation:planeDrift 3.2s ease-in-out infinite alternate;}
+@keyframes planeDrift{from{left:14%;}to{left:58%;}}
+@media (prefers-reduced-motion:reduce){ .route-chip .rc-plane{animation:none;} }
+/* Southwest heart placements */
+.brandmark .kicker .sw-heart{width:12px; height:12px; vertical-align:-2px; margin-right:5px; display:inline-block;}
+.sp-kicker .sw-heart{width:17px; height:17px; vertical-align:-4px; margin-right:8px; display:inline-block;}
+.bp-logo .sw-heart{width:26px; height:26px; display:block;}
+/* Now homepage: state tiles, live mirror, quips */
+.home-tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px;}
+.home-tiles button{
+  background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  padding:12px 11px; text-align:left; color:var(--ink); transition:transform .12s;
+}
+.home-tiles button:active{transform:scale(.96);}
+.home-tiles i{font-style:normal; display:block; font-size:9px; font-weight:800; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold);}
+.home-tiles b{font-family:var(--display); font-weight:800; font-size:16px; display:block; margin:3px 0 1px; color:#fff;}
+.home-tiles span{font-size:10px; color:var(--muted);}
+.mirror{margin-top:14px;}
+.mirror-head{display:flex; align-items:center; gap:7px; font-size:10px; font-weight:800;
+  letter-spacing:.18em; color:var(--gold);}
+.mirror-head em{font-style:normal; margin-left:auto; color:var(--muted); letter-spacing:.04em; text-transform:none;}
+.mirror-frame{margin:11px 0 12px; border-radius:12px; overflow:hidden; aspect-ratio:16/10;
+  background:var(--surface2); display:grid; place-items:center;}
+.mirror-frame img{width:100%; height:100%; object-fit:cover; animation:fadein .5s ease;}
+.mirror-empty{color:var(--muted); font-size:12px; padding:0 20px; text-align:center;}
+.mirror .btn{width:100%;}
+.quip{margin-top:18px; text-align:center; font-size:12px; color:var(--muted); font-style:italic;
+  min-height:20px; opacity:0; padding:0 10px;}
+.quip.in{animation:quipIn .7s ease forwards;}
+@keyframes quipIn{to{opacity:1;}}
+@media (prefers-reduced-motion:reduce){ .theme-chili .live-pill.live-chip::after{animation:none;} }
+.theme-chili #displayView .frame{border-color:var(--gold); box-shadow:0 0 80px rgba(249,182,18,.3);}
+
+/* =========================================================================
+   WELCOME CHECK-IN — post-splash overlay (client.welcome config)
+   ========================================================================= */
+#welcome{
+  position:fixed; inset:0; z-index:180; display:flex; align-items:flex-end; justify-content:center;
+  background:rgba(6,10,30,.72); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  transition:opacity .35s ease;
+}
+#welcome.out{opacity:0; pointer-events:none;}
+.wc-card{
+  width:100%; max-width:520px; background:var(--surface);
+  border:1px solid var(--line); border-bottom:none; border-radius:26px 26px 0 0;
+  overflow:hidden; animation:wcUp .45s cubic-bezier(.2,.9,.2,1);
+  padding-bottom:calc(24px + env(safe-area-inset-bottom));
+}
+@keyframes wcUp{from{transform:translateY(60%);}to{transform:none;}}
+.wc-stripe{height:5px; background:linear-gradient(90deg,#304CB2 0 34%,#E51D23 34% 67%,#F9B612 67% 100%);}
+.wc-body{padding:26px 24px 0; text-align:center; display:flex; flex-direction:column; align-items:center; gap:0;}
+.wc-body h2{font-family:var(--display); font-weight:800; font-size:34px; letter-spacing:-.02em; color:#fff; line-height:1.02;}
+.wc-body p{color:var(--muted); font-size:14px; margin:10px 0 20px; max-width:34ch;}
+.wc-body .btn{width:100%;}
+.wc-skip{margin-top:14px; font-size:12.5px; color:var(--muted); text-decoration:underline;}
+.wc-photo{
+  width:96px; height:96px; border-radius:50%; object-fit:cover; margin-bottom:14px;
+  border:3px solid var(--gold); box-shadow:0 10px 30px rgba(0,0,0,.4);
+  animation:logoPop .5s cubic-bezier(.2,.9,.3,1.4);
+}
+
+/* =========================================================================
+   venuFX — confetti burst (brand colors + peppers)
+   ========================================================================= */
+.fx-burst{position:fixed; inset:0; z-index:400; pointer-events:none; overflow:hidden;}
+.fx-burst i{
+  position:absolute; top:-26px; width:9px; height:14px; border-radius:3px; display:block;
+  animation:fxFall linear forwards;
+}
+.fx-burst i.pep{width:auto; height:auto; background:none;}
+@keyframes fxFall{to{transform:translate(var(--dx,0), 108vh) rotate(var(--rot,360deg)); opacity:.85;}}
+
+/* venuFX.flyby — jet + tricolor contrail crossing the screen */
+.fx-fly{
+  position:fixed; left:0; z-index:401; pointer-events:none;
+  display:flex; align-items:center;
+  transform:translateX(-40vw);
+  animation:flyAcross 2.1s cubic-bezier(.35,.1,.45,.95) forwards;
+}
+.fx-plane{width:34px; height:34px; filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));}
+.fx-trail{
+  width:34vw; height:4px; border-radius:99px; margin-right:-4px;
+  background:linear-gradient(90deg, transparent, #304CB2 35%, #E51D23 65%, #F9B612 100%);
+  opacity:.85;
+}
+@keyframes flyAcross{
+  0%{transform:translateX(-40vw) translateY(0);}
+  100%{transform:translateX(120vw) translateY(-4vh);}
+}
+
+/* =========================================================================
+   BOARDING PASS — the aviation layer (client.aviation)
+   ========================================================================= */
+.bp-card{
+  width:100%; max-width:340px; margin:14px auto 0; background:#fff; color:#1B2A5E;
+  border-radius:18px; padding:16px 18px 14px; text-align:left; position:relative;
+  box-shadow:0 18px 44px rgba(0,0,0,.45);
+}
+.bp-card::before, .bp-card::after{
+  content:""; position:absolute; top:58%; width:18px; height:18px; border-radius:50%;
+  background:var(--bg, #101A45);
+}
+.bp-card::before{left:-9px;} .bp-card::after{right:-9px;}
+.bp-head{display:flex; align-items:center; gap:8px; padding-bottom:10px; border-bottom:2px dashed #D9DEF0;}
+.bp-logo svg{width:24px; height:24px; display:block;}
+.bp-flight{font-family:var(--display); font-weight:800; font-size:16px; letter-spacing:.04em;}
+.bp-date{margin-left:auto; font-size:10.5px; font-weight:800; letter-spacing:.14em; color:#8A93B8;}
+.bp-route{display:flex; align-items:center; gap:12px; padding:14px 0 4px;}
+.bp-ap b{font-family:var(--display); font-weight:800; font-size:30px; letter-spacing:-.01em; display:block; line-height:1;}
+.bp-ap i{font-style:normal; font-size:9.5px; font-weight:800; letter-spacing:.12em; color:#8A93B8; text-transform:uppercase;}
+.bp-jet{width:22px; height:22px; flex:0 0 auto; opacity:.9;}
+.bp-face{width:46px; height:46px; border-radius:50%; object-fit:cover; margin-left:auto; border:2.5px solid #F9B612;}
+.bp-row{display:flex; gap:22px; padding:10px 0 12px;}
+.bp-row span i{font-style:normal; display:block; font-size:9px; font-weight:800; letter-spacing:.16em; color:#8A93B8;}
+.bp-row span b{font-family:var(--display); font-weight:800; font-size:22px;}
+.bp-code{
+  height:36px; border-radius:4px;
+  background:repeating-linear-gradient(90deg,#1B2A5E 0 2px,transparent 2px 5px,#1B2A5E 5px 7px,transparent 7px 9px,#1B2A5E 9px 10px,transparent 10px 14px);
+}
+.bp-note{font-size:10.5px; color:#8A93B8; font-weight:700; text-align:center; margin-top:9px;}
+/* full-screen pass modal (tap the LIVE chip) */
+.bp-modal{
+  position:fixed; inset:0; z-index:190; display:flex; align-items:center; justify-content:center;
+  background:rgba(6,10,30,.78); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px);
+  animation:fadein .25s ease; padding:22px;
+}
+.bp-modal.out{opacity:0; transition:opacity .3s;}
+.bp-modal .bp-wrap{width:100%; max-width:340px;}
+.bp-modal .bp-card{animation:wcUp .4s cubic-bezier(.2,.9,.2,1);}
+.bp-close{display:block; margin:16px auto 0; color:var(--muted); font-size:13px; text-decoration:underline;}
+/* teaser card on Now */
+.bp-teaser{
+  width:100%; display:flex; align-items:center; gap:12px; text-align:left;
+  background:#fff; color:#1B2A5E; border-radius:16px; padding:12px 14px; margin-top:12px;
+  box-shadow:0 10px 28px rgba(0,0,0,.35); transition:transform .12s;
+}
+.bp-teaser:active{transform:scale(.98);}
+.bp-teaser img{width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid #F9B612;}
+.bp-teaser .bp-tick{width:26px; height:26px; color:#304CB2;}
+.bp-teaser span i{font-style:normal; display:block; font-size:9.5px; font-weight:800; letter-spacing:.14em; color:#8A93B8; text-transform:uppercase;}
+.bp-teaser span b{font-family:var(--display); font-weight:800; font-size:15px;}
+.bp-teaser em{font-style:normal; margin-left:auto; font-size:11.5px; font-weight:800; color:#304CB2; text-decoration:underline;}
+/* keep the welcome sheet's pass readable on its dark card */
+#welcome .bp-card{margin-bottom:6px;}
+
+/* =========================================================================
+   DEPARTURES BOARD — schedule as an airport board (client.departures)
+   ========================================================================= */
+.depboard{padding:0 !important; overflow:hidden; background:#0B1233 !important;}
+.dep-head{
+  display:grid; grid-template-columns:56px 1fr 86px; gap:10px; padding:12px 16px 10px;
+  font-size:9.5px; font-weight:800; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line);
+}
+.dep-row{
+  display:grid; grid-template-columns:56px 1fr 86px; gap:10px; align-items:center;
+  padding:13px 16px; border-bottom:1px solid rgba(45,60,126,.5);
+  animation:depFlip .5s cubic-bezier(.2,.8,.2,1) both;
+}
+.dep-row:last-child{border-bottom:none;}
+@keyframes depFlip{from{opacity:0; transform:translateY(-8px) rotateX(50deg);}to{opacity:1; transform:none;}}
+@media (prefers-reduced-motion:reduce){ .dep-row{animation:none;} }
+.dep-time{font-family:var(--display); font-weight:800; font-size:15px; color:var(--gold); letter-spacing:.02em;}
+.dep-title{font-weight:700; font-size:13.5px; color:#fff; line-height:1.3;}
+.dep-who{color:var(--muted); font-size:11px; margin-top:2px;}
+.dep-status{
+  font-size:9px; font-weight:800; letter-spacing:.1em; text-align:center;
+  border:1px solid var(--line); border-radius:7px; padding:5px 4px; color:var(--muted);
+}
+.dep-status.s-boarding{color:#1B2A5E; background:var(--gold); border-color:var(--gold); animation:pulse 1.8s infinite;}
+.dep-status.s-ontime{color:#5BD778; border-color:rgba(91,215,120,.45);}
+.dep-status.s-finalcall{color:#fff; background:var(--accent); border-color:var(--accent);}
+.dep-status.s-delayed{color:#F9B612; border-color:rgba(249,182,18,.45);}
+.dep-status.s-departed{color:var(--muted); text-decoration:line-through;}
+
+/* =========================================================================
+   BRANDED SPLASH — full-screen opening moment (rendered when the client
+   config has a `splash` block). Neutral by default; themes recolor it.
+   ========================================================================= */
+body.splash-open{overflow:hidden;}
+#splash{
+  position:fixed; inset:0; z-index:200; overflow:hidden;
+  background:var(--bg); display:flex; align-items:center; justify-content:center;
+  transition:opacity .45s ease, transform .45s ease;
+}
+#splash.out{opacity:0; transform:scale(1.04); pointer-events:none;}
+.theme-chili #splash{background:linear-gradient(168deg,#3B5BD6 0%,#304CB2 44%,#1B2A6E 100%);}
+.sp-bands{position:absolute; inset:0; pointer-events:none;}
+.sp-bands i{
+  position:absolute; left:-12%; width:124%; height:34px; transform:rotate(-8deg);
+  animation:bandIn .7s cubic-bezier(.2,.8,.2,1) both;
+}
+.sp-bands i:nth-child(1){top:9%;  background:#E51D23; animation-delay:.05s;}
+.sp-bands i:nth-child(2){top:15%; background:#F9B612; animation-delay:.14s;}
+.sp-bands i:nth-child(3){top:21%; background:rgba(255,255,255,.22); animation-delay:.23s;}
+@keyframes bandIn{from{transform:rotate(-8deg) translateX(-110%);}to{transform:rotate(-8deg) translateX(0);}}
+.sp-inner{
+  position:relative; text-align:center; padding:0 26px; max-width:440px;
+  display:flex; flex-direction:column; align-items:center;
+}
+.sp-logo{width:104px; height:104px; margin-bottom:14px; filter:drop-shadow(0 10px 26px rgba(0,0,0,.35));
+  animation:logoPop .6s cubic-bezier(.2,.9,.3,1.4) .3s both;}
+@keyframes logoPop{from{opacity:0; transform:scale(.5);}to{opacity:1; transform:scale(1);}}
+.sp-kicker{font-size:11px; font-weight:700; letter-spacing:.34em; color:#F9B612; margin-bottom:10px;
+  animation:riseIn .5s ease .4s both;}
+.sp-title{display:flex; flex-direction:column; line-height:.98; margin-bottom:16px;}
+.sp-title span{
+  font-family:var(--display); font-weight:700; text-transform:uppercase;
+  font-size:clamp(40px, 12vw, 58px); color:#fff; letter-spacing:.01em;
+  animation:riseIn .55s cubic-bezier(.2,.8,.2,1) both;
+}
+.sp-title span:last-child{color:#F9B612;}
+@keyframes riseIn{from{opacity:0; transform:translateY(22px);}to{opacity:1; transform:none;}}
+.sp-date{
+  font-size:12px; font-weight:700; letter-spacing:.2em; color:#fff;
+  border:1.5px solid rgba(255,255,255,.45); border-radius:99px; padding:8px 18px;
+  animation:riseIn .5s ease .62s both;
+}
+.sp-sub{color:rgba(255,255,255,.82); font-size:14px; margin-top:16px; max-width:36ch;
+  animation:riseIn .5s ease .72s both;}
+.sp-cta{
+  margin-top:26px; background:#fff; color:#1B2A6E; font-weight:700; font-size:15px;
+  border-radius:99px; padding:15px 40px; letter-spacing:.02em;
+  box-shadow:0 12px 32px rgba(0,0,0,.3);
+  animation:riseIn .5s ease .84s both;
+}
+.sp-cta:active{transform:scale(.97);}
+@media (prefers-reduced-motion:reduce){
+  .sp-bands i,.sp-logo,.sp-kicker,.sp-title span,.sp-date,.sp-sub,.sp-cta{animation:none;}
+}

@@ -14,5 +14,13 @@ const firebaseConfig = {
   appId: "1:945654411922:web:9e36a534cdb0594dc4ec4b"
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+/* `var` (not const) so the binding always exists even if the Firebase CDN
+   is blocked (ad-blockers, captive portals, venue wifi) — the app then runs
+   in local/demo mode instead of dying on a TDZ ReferenceError. */
+var db = null;
+try{
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+}catch(e){
+  console.warn("Venu: Firebase unavailable — running in local demo mode.", e && e.message);
+}
