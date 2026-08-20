@@ -864,11 +864,12 @@ function initModules(ids){
       sec.innerHTML = "";   /* one broken module never takes down the app */
     }
   };
+  const credit = main.querySelector(".venu-credit");   /* footer stays last */
   normal.forEach(({id, def, cfg})=>{
     const sec = document.createElement("section");
     sec.className = "view";
     sec.id = "view-" + id;
-    main.appendChild(sec);
+    credit ? main.insertBefore(sec, credit) : main.appendChild(sec);
     renderOne(id, def, sec);
     if(def.tab){
       const b = document.createElement("button");

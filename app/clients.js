@@ -150,8 +150,8 @@ CLIENTS.southwestchili = {
   wall: {
     title: "Photos",
     tag: "Around the ranch",
-    ctaTitle: "Caught something good?",
-    ctaSub: "Share it — the best shots rotate on the big screen and land in the feed below all day.",
+    ctaTitle: "Moments fly free.",
+    ctaSub: "Capture the day with your Cohearts — the best shots rotate on the big screen and land in the feed below.",
     btn: "Take or choose a photo"
   },
 
