@@ -35,3 +35,8 @@ Adding a client = a new entry in `clients.js` — no DNS change, no redeploy tar
 - [ ] Task 5 — moderator passcode gate
 - [ ] Task 6 — PWA (per-client manifest, service worker, iOS Add to Home Screen)
 - [ ] Task 7 — marketing site at the root
+- [~] Task 8 — first pitch client: **Southwest — The Last Chili Cookoff** (`southwestchili`,
+      preview `?client=southwestchili`). Adds the `chili` theme, config-driven branded splash,
+      a module loader in app.js, and three modules promoted planned→beta:
+      `polls` (Chili Vote), `scavenger` (hunt), `venue-map` (map + booth finder).
+      Sample data + placeholder branding pending client review.
