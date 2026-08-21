@@ -257,6 +257,39 @@ if(C.aviation){
   if(bk) bk.innerHTML = SW_HEART + bk.textContent;
 }
 
+/* ========================= PEPPER MASCOTS =========================
+   The cookoff's walking peppers, redrawn as SVG from the event's own
+   merch (51st coozie: yellow/orange/red, white gloves + shoes, no
+   cowboy clothes). Config flags sprinkle them in: splash.mascots,
+   polls.mascots — corporate look stays, peppers bring the party. */
+function venuPepper(color, pose){
+  const poses = [
+    ["M30 52 C20 46 15 37 17 26", [17,24], "M68 60 C78 64 84 72 82 80", [82,82]],
+    ["M30 52 C20 46 14 38 15 28", [15,26], "M68 54 C78 48 84 40 83 30", [83,28]],
+    ["M30 60 C21 64 15 71 16 79", [16,81], "M68 52 C77 45 82 36 80 26", [80,24]]
+  ];
+  const a = poses[pose % 3];
+  return `<svg class="venu-pep" viewBox="0 0 100 140" aria-hidden="true">
+    <path fill="#3E9B4F" d="M50 16c-2-9 4-14 13-13-6 2-8 6-8 13z"/>
+    <path fill="${color}" stroke="#101A45" stroke-width="2.5" d="M52 13 C30 13 20 34 23 60 C26 82 36 97 50 99 C60 100 67 92 69 79 C73 56 74 32 64 19 C60 14 56 13 52 13 Z"/>
+    <circle cx="42" cy="45" r="3.4" fill="#101A45"/><circle cx="56" cy="45" r="3.4" fill="#101A45"/>
+    <circle cx="43.2" cy="43.8" r="1.1" fill="#fff"/><circle cx="57.2" cy="43.8" r="1.1" fill="#fff"/>
+    <path d="M39 58 Q49 68 60 57" fill="none" stroke="#101A45" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="${a[0]}" fill="none" stroke="#101A45" stroke-width="3.4" stroke-linecap="round"/>
+    <circle cx="${a[1][0]}" cy="${a[1][1]}" r="6" fill="#fff" stroke="#101A45" stroke-width="2.2"/>
+    <path d="${a[2]}" fill="none" stroke="#101A45" stroke-width="3.4" stroke-linecap="round"/>
+    <circle cx="${a[3][0]}" cy="${a[3][1]}" r="6" fill="#fff" stroke="#101A45" stroke-width="2.2"/>
+    <path d="M44 98 C42 108 38 114 32 119" fill="none" stroke="#101A45" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M56 99 C58 110 61 116 67 121" fill="none" stroke="#101A45" stroke-width="3.4" stroke-linecap="round"/>
+    <ellipse cx="27" cy="123" rx="11" ry="5.5" fill="#fff" stroke="#101A45" stroke-width="2.2"/>
+    <ellipse cx="72" cy="125" rx="11" ry="5.5" fill="#fff" stroke="#101A45" stroke-width="2.2"/>
+  </svg>`;
+}
+window.VENU_PEPPERS = {
+  one(color, pose){ return venuPepper(color || "#E51D23", pose == null ? 1 : pose); },
+  trio(){ return `<div class="pep-trio">${venuPepper("#F9B612",0)}${venuPepper("#F07C22",1)}${venuPepper("#E51D23",2)}</div>`; }
+};
+
 /* ========================= BRANDED SPLASH =========================
    High-visibility opening screen, rendered before the shell when the
    client config carries a `splash` block. Pure config: kicker, stacked
@@ -285,6 +318,7 @@ if(C.splash && !deepTarget && !["#display","#mod"].includes(location.hash)){
       <h1 class="sp-title">${C.splash.title.map((l,i)=>`<span style="animation-delay:${(0.18*i+0.25).toFixed(2)}s">${l}</span>`).join("")}</h1>
       <div class="sp-date">${C.splash.date}</div>
       <p class="sp-sub">${C.splash.sub}</p>
+      ${C.splash.mascots && window.VENU_PEPPERS ? `<div class="sp-peps">${VENU_PEPPERS.trio()}</div>` : ""}
       <button class="sp-cta" id="splashCta">${C.splash.cta}</button>
     </div>`;
   document.body.appendChild(sp);

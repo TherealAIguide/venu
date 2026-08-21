@@ -495,6 +495,17 @@ body.display-mode #displayExit{display:block;}
   animation:fxFall linear forwards;
 }
 .fx-burst i.pep{width:auto; height:auto; background:none;}
+/* Pepper mascots — the cookoff's walking trio */
+.pep-trio{display:flex; gap:12px; align-items:flex-end; justify-content:center;}
+.pep-trio .venu-pep{width:62px; height:auto;}
+.pep-trio .venu-pep:nth-child(1){animation:pepBob 1.3s ease-in-out 0s infinite alternate;}
+.pep-trio .venu-pep:nth-child(2){animation:pepBob 1.3s ease-in-out .2s infinite alternate;}
+.pep-trio .venu-pep:nth-child(3){animation:pepBob 1.3s ease-in-out .4s infinite alternate;}
+@keyframes pepBob{from{transform:translateY(0) rotate(-2deg);}to{transform:translateY(-5px) rotate(2deg);}}
+@media (prefers-reduced-motion:reduce){ .pep-trio .venu-pep{animation:none;} }
+.sp-peps{margin-top:20px; animation:riseIn .5s ease .8s both;}
+.vote-flash .pep-trio{margin-top:20px;}
+.vote-flash .pep-trio .venu-pep{width:52px;}
 @keyframes fxFall{to{transform:translate(var(--dx,0), 108vh) rotate(var(--rot,360deg)); opacity:.85;}}
 
 /* venuFX.flyby — jet + tricolor contrail crossing the screen */
