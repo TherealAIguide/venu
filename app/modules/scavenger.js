@@ -83,7 +83,7 @@
           <p class="hunt-sub">${H.sub}</p>
           ${doneAll ? `
             <div class="hunt-done">
-              ${window.VENU_PEPPERS ? VENU_PEPPERS.one("#E51D23", 1) : ""}
+              ${H.mascots && window.VENU_PEPPERS ? VENU_PEPPERS.one("#E51D23", 1) : ""}
               <h3>You got them all.</h3>
               <p>${H.prize}</p>
               <div class="code">${H.prizeCode}</div>
