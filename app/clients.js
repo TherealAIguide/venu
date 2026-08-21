@@ -117,7 +117,7 @@ CLIENTS.southwestchili = {
     title: ["53RD & LAST", "CHILI COOKOFF"],
     date: "SAT · NOV 14 · SOUTHFORK RANCH",
     sub: "Every department sent its champion. One bowl leaves Southfork with the Final Ladle.",
-    mascots: true,
+    /* mascots: true — re-enable when the real pepper art arrives */
     cta: "Let's dig in"
   },
 
@@ -202,7 +202,7 @@ CLIENTS.southwestchili = {
      Booth QR codes deep-link straight here: <event-url>/#vote            */
   polls: {
     tabLabel: "Vote",
-    mascots: true,
+    /* mascots: true — re-enable when the real pepper art arrives */
     id: "peoples-choice-2026",
     title: "Cast your vote.",
     resultsTitle: "Live from Chili Row.",
