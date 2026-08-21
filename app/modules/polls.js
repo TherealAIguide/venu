@@ -73,6 +73,8 @@
     tab: { label:"Vote", view:"polls", ico:ICO },
     styles: `
       .poll-sub{color:var(--muted); font-size:14px; margin:-4px 0 16px; line-height:1.55;}
+      .poll-peps{margin:-4px 0 16px;}
+      .poll-peps .venu-pep{width:52px;}
       .poll-note{font-size:12px; color:var(--muted); text-align:center; margin:14px 0 4px; line-height:1.6;}
       /* ballot cards */
       .poll-opt{display:flex; align-items:center; gap:13px; width:100%; text-align:left;
@@ -279,6 +281,7 @@
         el.innerHTML = `
           <h2 class="section">${P.title}</h2>
           <p class="poll-sub">${P.sub}</p>
+          ${P.mascots && window.VENU_PEPPERS ? `<div class="poll-peps">${VENU_PEPPERS.trio()}</div>` : ""}
           <div class="log-summary">${tried ? `Your tasting log: <b>${tried} of ${P.options.length} tried</b> — tap a chili to log it.` : `Tap a chili for the full story — and log the ones you try.`}</div>
           <div id="ballot"></div>
           <div class="poll-note">${P.closes}<br>One vote per device — choose wisely, it's the last one.</div>
@@ -518,7 +521,7 @@
         const AV = ctx.client.aviation || {};
         const fl = document.createElement("div");
         fl.className = "vote-flash";
-        fl.innerHTML = `<div><h2>${AV.castTitle || "Vote cast."}</h2><p>${AV.castSub || o.dept + " thanks you. Results are live."}</p></div>`;
+        fl.innerHTML = `<div><h2>${AV.castTitle || "Vote cast."}</h2><p>${AV.castSub || o.dept + " thanks you. Results are live."}</p>${P.mascots && window.VENU_PEPPERS ? VENU_PEPPERS.trio() : ""}</div>`;
         document.body.appendChild(fl);
         if(window.venuFX){
           venuFX.burst(54);

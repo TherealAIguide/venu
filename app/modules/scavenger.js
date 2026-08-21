@@ -57,6 +57,7 @@
         padding:24px 18px; margin-bottom:14px;
         background:radial-gradient(120% 100% at 50% 0%, rgba(249,182,18,.22), transparent 60%), var(--surface);}
       .hunt-done h3{font-family:var(--display); font-weight:800; font-size:32px; color:#fff; letter-spacing:-.02em; margin-bottom:6px;}
+      .hunt-done .venu-pep{width:58px; margin:0 auto 8px; display:block;}
       .hunt-done p{color:var(--muted); font-size:13px; max-width:36ch; margin:0 auto;}
       .hunt-done .code{display:inline-block; margin-top:14px; font-family:var(--display); font-weight:800; font-size:22px;
         letter-spacing:.12em; color:var(--gold); border:2px dashed rgba(249,182,18,.6);
@@ -82,6 +83,7 @@
           <p class="hunt-sub">${H.sub}</p>
           ${doneAll ? `
             <div class="hunt-done">
+              ${window.VENU_PEPPERS ? VENU_PEPPERS.one("#E51D23", 1) : ""}
               <h3>You got them all.</h3>
               <p>${H.prize}</p>
               <div class="code">${H.prizeCode}</div>

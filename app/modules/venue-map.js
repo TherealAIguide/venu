@@ -56,6 +56,9 @@
         border-radius:9px; padding:7px 12px; box-shadow:0 6px 16px rgba(0,0,0,.35);}
       .map-zoomout.on{display:block;}
       .map-wrap svg{display:block; width:100%; height:auto;}
+      .map-wrap.has-img{background:#EFEDE6;}
+      .map-wrap.has-img .map-pin circle{stroke:#fff; stroke-width:1.6;}
+      .map-wrap.has-img .map-pin text{fill:#101A45;}
       .map-area{fill:var(--surface2); stroke:var(--line); stroke-width:1.2; rx:10;}
       .map-area.stage{fill:rgba(229,29,35,.2); stroke:rgba(229,29,35,.5);}
       .map-area.row{fill:rgba(249,182,18,.08); stroke:rgba(249,182,18,.3); stroke-dasharray:5 4;}
@@ -118,6 +121,19 @@
       const svg = el.querySelector("svg");
       const NS = "http://www.w3.org/2000/svg";
 
+      /* real venue map image under the pins (M.img). The schematic areas
+         render only when there's no image — the image carries its own
+         labels. */
+      if(M.img){
+        const im = document.createElementNS(NS, "image");
+        im.setAttribute("href", M.img);
+        im.setAttribute("x", 0); im.setAttribute("y", 0);
+        im.setAttribute("width", M.w); im.setAttribute("height", M.h);
+        im.setAttribute("preserveAspectRatio", "xMidYMid slice");
+        svg.appendChild(im);
+        el.querySelector(".map-wrap").classList.add("has-img");
+      }
+
       /* areas */
       (M.areas || []).forEach(a=>{
         const r = document.createElementNS(NS, "rect");
@@ -133,19 +149,22 @@
         svg.appendChild(t);
       });
 
-      /* points */
+      /* points — per-point radius override (p.r) lets dense clusters like
+         the chili tents use smaller pins on the real map */
       const pins = {};
       M.points.forEach(p=>{
         const ty = TYPES[p.t] || TYPES.fun;
+        const r = p.r || 11;
         const g = document.createElementNS(NS, "g");
         g.setAttribute("class", "map-pin");
         g.dataset.id = p.id;
         const c = document.createElementNS(NS, "circle");
-        c.setAttribute("cx", p.x); c.setAttribute("cy", p.y); c.setAttribute("r", 11);
+        c.setAttribute("cx", p.x); c.setAttribute("cy", p.y); c.setAttribute("r", r);
         c.setAttribute("fill", ty.c);
         g.appendChild(c);
         const t = document.createElementNS(NS, "text");
-        t.setAttribute("x", p.x); t.setAttribute("y", p.y + 3);
+        t.setAttribute("x", p.x); t.setAttribute("y", p.y + r*0.28);
+        t.setAttribute("style", "font-size:" + (r*0.78).toFixed(1) + "px");
         t.textContent = p.t === "chili" ? p.l.split(" ")[0] : ty.g;   /* booth # or glyph */
         g.appendChild(t);
         g.addEventListener("click", ()=>select(p.id));
